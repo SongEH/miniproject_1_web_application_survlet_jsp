@@ -2,7 +2,7 @@ package util;
 
 public class Util {
 	
-	public final static String base_url = "http://localhost:8080/";
+	public final static String base_url = "http://localhost:8080/miniproject1";
 	
 	// 입력된 문자를 MD5형식의 해시 코드로 변환하는 코드 
 	// 비밀번호 등 해시코드로 변환시켜 보안성 높이는 용도

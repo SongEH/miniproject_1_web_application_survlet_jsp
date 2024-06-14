@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import service.DBService;
+import util.Util;
 import vo.MemberVo;
 
 public class BlogDao {
@@ -37,7 +38,10 @@ public class BlogDao {
 			
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, m_id);
+			pstmt.setString(2, Util.MD5(m_pw));
 			rs = pstmt.executeQuery();
+			status = rs.next();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
