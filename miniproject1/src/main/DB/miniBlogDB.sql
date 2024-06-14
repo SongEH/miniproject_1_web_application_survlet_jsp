@@ -1,6 +1,6 @@
 -- 회원 테이블
 create table member{
-	m_idx	int,							-- 회원번호
+	m_idx	int not null,							-- 회원번호
 	m_name	varchar2(50) not null unique,	-- 회원명
 	m_id	varchar2(50) not null,			-- 아이디
 	m_pw	varchar2(50) not null,			-- 비밀번호
@@ -23,7 +23,7 @@ insert into member values (seq_member_m_idx,name,id,pw,email,intro,rdate,mdate,2
 
 -- 게시글 테이블
 create table post{
-	p_idx		int,					-- 게시번호
+	p_idx		int not null,					-- 게시번호
 	p_cate		varchar2(50) not null,	-- 카테고리
 	p_title		varchar2(100) not null, -- 게시글제목
 	p_content 	CLOB not null,			-- 내용
@@ -49,7 +49,7 @@ insert into post values (seq_post_p_idx,cate,title,content,edate,mdate,2,hit,m_i
 
 -- 게시글 좋아요/스크랩 테이블
 create table post_like{
-	l_idx 	int,					-- 번호
+	l_idx 	int not null,					-- 번호
 	l_rdate date default sysdate,	-- 생성일
 	l_mdate date default sysdate,	-- 수정일
 	l_type 	int not null,			-- 구분(좋아요:1, 스크랩:2)
@@ -76,7 +76,7 @@ insert into post_like values (seq_post_like_l_idx,rdate,mdate,type,m_idx,p_idx);
 
 -- 댓글 테이블
 create table comment{
-	c_idx		int,					-- 댓글번호
+	c_idx		int not null,					-- 댓글번호
 	c_content	varchar2(100) not null,	-- 내용
 	c_rdate		date default sysdate,	-- 등록일자
 	c_mdate		date default sysdate,	-- 수정일자
