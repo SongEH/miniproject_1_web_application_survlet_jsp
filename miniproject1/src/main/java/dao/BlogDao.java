@@ -44,7 +44,6 @@ public class BlogDao {
 			status = rs.next();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
