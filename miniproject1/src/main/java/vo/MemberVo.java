@@ -9,6 +9,7 @@ public class MemberVo {
 	private String m_intro;
 	private String m_rdate;
 	private String m_mdate;
+	private int m_type;
 	
 	public int getM_idx() {
 		return m_idx;
@@ -74,11 +75,20 @@ public class MemberVo {
 		this.m_mdate = m_mdate;
 	}
 	
+	public int getM_type() {
+		return m_type;
+	}
+
+	public void setM_type(int m_type) {
+		this.m_type = m_type;
+	}
+
+	
 	public MemberVo() {
 	}
 
 	public MemberVo(int m_idx, String m_name, String m_id, String m_pw, String m_email, String m_intro, String m_rdate,
-			String m_mdate) {
+			String m_mdate, int m_type) {
 		super();
 		this.m_idx = m_idx;
 		this.m_name = m_name;
@@ -88,6 +98,7 @@ public class MemberVo {
 		this.m_intro = m_intro;
 		this.m_rdate = m_rdate;
 		this.m_mdate = m_mdate;
+		this.m_type = m_type;
 	}
 	
 	

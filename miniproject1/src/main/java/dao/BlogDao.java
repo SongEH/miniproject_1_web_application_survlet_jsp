@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import service.DBService;
 import vo.MemberVo;
 
 public class BlogDao {
@@ -33,7 +34,11 @@ public class BlogDao {
 		MemberVo mv = new MemberVo();
 		try {
 			String sql = "select * from member where m_id = ? and m_pw ?";
-			PreparedStatement pstm = conn.prepareStatement(sql);
+			
+			conn = DBService.getinstance().getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
