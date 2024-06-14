@@ -74,4 +74,21 @@ public class MemberVo {
 		this.m_mdate = m_mdate;
 	}
 	
+	public MemberVo() {
+	}
+
+	public MemberVo(int m_idx, String m_name, String m_id, String m_pw, String m_email, String m_intro, String m_rdate,
+			String m_mdate) {
+		super();
+		this.m_idx = m_idx;
+		this.m_name = m_name;
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+		this.m_email = m_email;
+		this.m_intro = m_intro;
+		this.m_rdate = m_rdate;
+		this.m_mdate = m_mdate;
+	}
+	
+	
 }
