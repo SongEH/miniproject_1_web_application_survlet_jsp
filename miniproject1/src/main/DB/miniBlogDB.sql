@@ -96,3 +96,5 @@ create sequence seq_comment_c_idx;
 
 -- 더미데이터 혹은 공지사항 설정
 insert into post_like values (seq_comment_c_idx,content,rdate,mdate,p_idx,m_idx);
+
+-- 1
