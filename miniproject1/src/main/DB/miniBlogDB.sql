@@ -8,11 +8,14 @@ create table member{
 	m_intro	varchar2(100) default 안녕하세요,	-- 자기소개
 	m_rdate	date default sysdate,			-- 등록일자
 	m_mdate	date default sysdate,			-- 수정일자
-	m_type	int default 1					-- 구분(일반:1, 관리자:2)
+	m_type	int default 1 					-- 구분(일반:1, 관리자:2)
 };
 
 -- Primary Key
 alter table member add constraint pk_member_m_idx primary key(m_idx);
+
+-- check
+alter table member add constraint ck_member_m_type check m_type in (1,2);
 
 -- Sequence 지정
 create sequence seq_member_m_idx;
@@ -40,6 +43,9 @@ alter table post add constraint pk_member_p_idx primary key(p_idx);
 -- Foreign Key
 alter table post add constraint fk_post_m_idx foreign key (m_idx) references member(m_idx) on delete cascade;
 
+-- check
+alter table member add constraint ck_post_p_type check p_type in (1,2);
+
 -- Sequence 지정
 create sequence seq_post_p_idx;
 
@@ -63,6 +69,9 @@ alter table post_like add constraint pk_post_like_p_idx primary key(p_idx);
 -- Foreign Key
 alter table post_like add constraint fk_post_like_m_idx foreign key (m_dix) references member(m_dix) on delete cascade;
 alter table post_like add constraint fk_post_like_p_idx foreign key (p_dix) references post(m_dix) on delete cascade;
+
+-- check
+alter table member add constraint ck_post_like_l_type check l_type in (1,2);
 
 -- 좋아요 중복 방지
 alter table post_like add constraint unique_post_like unique (p_dix, m_dix);
@@ -91,10 +100,9 @@ alter table comment add constraint pk_comment_c_idx primary key(c_idx);
 alter table comment add constraint fk_comment_m_idx foreign key (m_dix) references member(m_dix) on delete cascade;
 alter table comment add constraint fk_comment_p_idx foreign key (p_dix) references post(m_dix) on delete cascade;
 
+
 -- Sequence 지정
 create sequence seq_comment_c_idx;
 
 -- 더미데이터 혹은 공지사항 설정
 insert into post_like values (seq_comment_c_idx,content,rdate,mdate,p_idx,m_idx);
-
--- 1
