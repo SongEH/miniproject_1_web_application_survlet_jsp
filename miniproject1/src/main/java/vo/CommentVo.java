@@ -1,11 +1,13 @@
 package vo;
 
+import java.sql.Date;
+
 public class CommentVo {
 	
 	private int c_idx;
 	private String c_content;
-	private String c_rdate;
-	private String c_mdate;
+	private Date c_rdate;
+	private Date c_mdate;
 	private int p_idx;
 	private int m_idx;
 	
@@ -25,19 +27,19 @@ public class CommentVo {
 		this.c_content = c_content;
 	}
 	
-	public String getC_rdate() {
+	public Date getC_rdate() {
 		return c_rdate;
 	}
 	
-	public void setC_rdate(String c_rdate) {
+	public void setC_rdate(Date c_rdate) {
 		this.c_rdate = c_rdate;
 	}
 	
-	public String getC_mdate() {
+	public Date getC_mdate() {
 		return c_mdate;
 	}
 	
-	public void setC_mdate(String c_mdate) {
+	public void setC_mdate(Date c_mdate) {
 		this.c_mdate = c_mdate;
 	}
 	
