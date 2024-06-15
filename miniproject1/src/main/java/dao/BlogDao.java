@@ -43,11 +43,16 @@ public class BlogDao {
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getM_name());
+			// XSS 방어를 위해 이스케이프 처리
+            String m_name = Util.escapeHtml(vo.getM_name());
+            String m_email = Util.escapeHtml(vo.getM_email());
+            String m_intro = Util.escapeHtml(vo.getM_intro());
+			
+			pstmt.setString(1, m_name);
 			pstmt.setString(2, vo.getM_id());
-			pstmt.setString(3, vo.getM_pw());
-			pstmt.setString(4, vo.getM_email());
-			pstmt.setString(5, vo.getM_intro());
+			pstmt.setString(3, Util.MD5(vo.getM_pw()));
+			pstmt.setString(4, m_email);
+			pstmt.setString(5, m_intro);
 			pstmt.setInt(6, vo.getM_type());
 			
 			res = pstmt.executeUpdate();
@@ -129,14 +134,19 @@ public class BlogDao {
 		String sql = null;
 		
 		try {
-			sql = "update posts set m_name = ?, m_email = ?, m_intro = ? where m_idx = ?";
+			sql = "update member set m_name = ?, m_email = ?, m_intro = ?, m_mdate = sysdate where m_idx = ?";
 			
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getM_name());
-            pstmt.setString(2, vo.getM_email());
-            pstmt.setString(3, vo.getM_intro());
+			// XSS 방어를 위해 이스케이프 처리
+			String m_name = Util.escapeHtml(vo.getM_name());
+            String m_email = Util.escapeHtml(vo.getM_email());
+            String m_intro = Util.escapeHtml(vo.getM_intro());
+			
+			pstmt.setString(1, m_name);
+            pstmt.setString(2, m_email);
+            pstmt.setString(3, m_intro);
             pstmt.setInt(4, vo.getM_idx());
             
 			res = pstmt.executeUpdate();
@@ -488,7 +498,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into post values(seq_post_p_idx,?,?,?,?,?,?,?,?)";	
+		String sql = "insert into post values(seq_post_p_idx,?,?,?,sysdate,sysdate,?,?,?)";	
 
 		try {
 
@@ -503,11 +513,9 @@ public class BlogDao {
 			pstmt.setString(1, p_cate);
 			pstmt.setString(2, p_title);
 			pstmt.setString(3, p_content);
-			pstmt.setString(4, vo.getP_rdate());
-			pstmt.setString(5, vo.getP_mdate());
-			pstmt.setInt(6, vo.getP_type());
-			pstmt.setInt(7, vo.getP_hit());
-			pstmt.setInt(8, vo.getM_idx());
+			pstmt.setInt(4, vo.getP_type());
+			pstmt.setInt(5, vo.getP_hit());
+			pstmt.setInt(6, vo.getM_idx());
 			
 			res = pstmt.executeUpdate();
 
@@ -686,7 +694,7 @@ public class BlogDao {
 	    return list;
 	}
 	
-	//특정 댓글 조회 (m_idx를 이용한 조회)
+	// 사용자가 작성한 댓글 조회
 	public List<CommentVo> selectCommentByMidx(int m_idx) {
 
 	    List<CommentVo> list = new ArrayList<>();
