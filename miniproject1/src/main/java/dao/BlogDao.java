@@ -495,9 +495,14 @@ public class BlogDao {
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getP_cate());
-			pstmt.setString(2, vo.getP_title());
-			pstmt.setString(3, vo.getP_content());
+			// XSS 방어를 위해 이스케이프 처리
+            String p_cate = Util.escapeHtml(vo.getP_cate());
+            String p_title = Util.escapeHtml(vo.getP_title());
+            String p_content = Util.escapeHtml(vo.getP_content());
+			
+			pstmt.setString(1, p_cate);
+			pstmt.setString(2, p_title);
+			pstmt.setString(3, p_content);
 			pstmt.setString(4, vo.getP_rdate());
 			pstmt.setString(5, vo.getP_mdate());
 			pstmt.setInt(6, vo.getP_type());
@@ -536,9 +541,14 @@ public class BlogDao {
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getP_cate());
-            pstmt.setString(2, vo.getP_title());
-            pstmt.setString(3, vo.getP_content());
+			// XSS 방어를 위해 이스케이프 처리
+            String p_cate = Util.escapeHtml(vo.getP_cate());
+            String p_title = Util.escapeHtml(vo.getP_title());
+            String p_content = Util.escapeHtml(vo.getP_content());
+			
+			pstmt.setString(1, p_cate);
+            pstmt.setString(2, p_title);
+            pstmt.setString(3, p_content);
             pstmt.setString(4, vo.getP_mdate());
             pstmt.setInt(5, vo.getP_idx());
             
@@ -733,7 +743,10 @@ public class BlogDao {
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getC_content());
+			// XSS 방어를 위해 이스케이프 처리
+            String c_content = Util.escapeHtml(vo.getC_content());
+			
+			pstmt.setString(1, c_content);
 			pstmt.setInt(2, vo.getP_idx());
 			pstmt.setInt(3, vo.getM_idx());
 			
@@ -769,7 +782,10 @@ public class BlogDao {
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getC_content());
+			// XSS 방어를 위해 이스케이프 처리
+            String c_content = Util.escapeHtml(vo.getC_content());
+			
+			pstmt.setString(1, c_content);
             pstmt.setString(2, vo.getC_mdate());
             pstmt.setInt(3, vo.getC_idx());;
             
