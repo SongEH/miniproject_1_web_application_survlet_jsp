@@ -1,12 +1,10 @@
 package vo;
 
-import java.sql.Date;
-
 public class Post_LikeVo {
 	
 	private int l_idx;
-	private Date l_rdate;
-	private Date l_mdate;
+	private String l_rdate;
+	private String l_mdate;
 	private int l_type;
 	private int m_idx;
 	private int p_idx;
@@ -19,19 +17,19 @@ public class Post_LikeVo {
 		this.l_idx = l_idx;
 	}
 	
-	public Date getL_rdate() {
+	public String getL_rdate() {
 		return l_rdate;
 	}
 	
-	public void setL_rdate(Date l_rdate) {
+	public void setL_rdate(String l_rdate) {
 		this.l_rdate = l_rdate;
 	}
 	
-	public Date getL_mdate() {
+	public String getL_mdate() {
 		return l_mdate;
 	}
 	
-	public void setL_mdate(Date l_mdate) {
+	public void setL_mdate(String l_mdate) {
 		this.l_mdate = l_mdate;
 	}
 	

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,9 @@ import vo.PostVo;
 import vo.Post_LikeVo;
 
 public class BlogDao {
-	
+	// 싱글톤
 	static BlogDao single = null;
-
+	
 	public static BlogDao getinstance() {
 
 		if (single == null)
@@ -36,7 +37,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into member values(seq_member_m_idx,?,?,?,?,?,sysdate,sysdate,?)";	
+		String sql = "insert into member values(seq_member_m_idx.nextval,?,?,?,?,?,sysdate,sysdate,?)";	
 
 		try {
 
@@ -82,6 +83,9 @@ public class BlogDao {
 		ResultSet rs = null;
 
 		String sql = "select * from member";
+		
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 		try {
 
@@ -90,18 +94,18 @@ public class BlogDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				MemberVo member = new MemberVo();
-	            member.setM_idx(rs.getInt("m_idx"));
-	            member.setM_name(rs.getString("m_name"));
-	            member.setM_id(rs.getString("m_id"));
-	            member.setM_pw(rs.getString("m_pw"));
-	            member.setM_email(rs.getString("m_email"));
-	            member.setM_intro(rs.getString("m_intro"));
-	            member.setM_rdate(rs.getDate("m_rdate"));
-	            member.setM_mdate(rs.getDate("m_mdate"));
-	            member.setM_type(rs.getInt("m_type"));
+				MemberVo mv = new MemberVo();
+	            mv.setM_idx(rs.getInt("m_idx"));
+	            mv.setM_name(rs.getString("m_name"));
+	            mv.setM_id(rs.getString("m_id"));
+	            mv.setM_pw(rs.getString("m_pw"));
+	            mv.setM_email(rs.getString("m_email"));
+	            mv.setM_intro(rs.getString("m_intro"));
+	            mv.setM_rdate(rs.getTimestamp("m_rdate").toLocalDateTime().format(dtf));
+	            mv.setM_mdate(rs.getTimestamp("m_mdate").toLocalDateTime().format(dtf));
+	            mv.setM_type(rs.getInt("m_type"));
 
-	            list.add(member);
+	            list.add(mv);
 			}
 
 		} catch (Exception e) {
@@ -200,7 +204,7 @@ public class BlogDao {
 	
 	// 로그인 기능
 	// remember me 옵션을 선택할 시 쿠키를 생성하여 로그인 상태 유지
-	public boolean login(String m_id, String m_pw, String remember, HttpServletRequest req, HttpServletResponse resp) {
+/*	public boolean login(String m_id, String m_pw, String remember, HttpServletRequest req, HttpServletResponse resp) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -257,7 +261,7 @@ public class BlogDao {
 		}
 		return status;
 	} 
-	
+*/	
 	// 이메일을 통한 아이디 찾기
 	public String getId(String m_email) {
         String id = "";
@@ -351,6 +355,9 @@ public class BlogDao {
 		ResultSet rs = null;
 
 		String sql = "select * from post";
+		
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 		try {
 
@@ -359,18 +366,18 @@ public class BlogDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				PostVo post = new PostVo();
-	            post.setP_idx(rs.getInt("p_idx"));
-	            post.setP_cate(rs.getString("p_cate"));
-	            post.setP_title(rs.getString("p_title"));
-	            post.setP_content(rs.getString("p_content"));
-	            post.setP_rdate(rs.getDate("p_rdate"));
-	            post.setP_mdate(rs.getDate("p_mdate"));
-	            post.setP_type(rs.getInt("p_type"));
-	            post.setP_hit(rs.getInt("p_hit"));
-	            post.setM_idx(rs.getInt("m_idx"));
+				PostVo pv = new PostVo();
+	            pv.setP_idx(rs.getInt("p_idx"));
+	            pv.setP_cate(rs.getString("p_cate"));
+	            pv.setP_title(rs.getString("p_title"));
+	            pv.setP_content(rs.getString("p_content"));
+	            pv.setP_rdate(rs.getTimestamp("p_rdate").toLocalDateTime().format(dtf));
+	            pv.setP_mdate(rs.getTimestamp("p_mdate").toLocalDateTime().format(dtf));
+	            pv.setP_type(rs.getInt("p_type"));
+	            pv.setP_hit(rs.getInt("p_hit"));
+	            pv.setM_idx(rs.getInt("m_idx"));
 
-	            list.add(post);
+	            list.add(pv);
 			}
 
 		} catch (Exception e) {
@@ -410,6 +417,9 @@ public class BlogDao {
 		// rownum을 이용하여 페이징을 처리 																	
         String sql = "select * from (select rownum rnum, p_idx, p_cate, p_title, p_content, p_rdate, p_mdate, p_type, p_hit, m_idx from (select * from post order by p_idx desc)) where rnum between ? and ?";
         
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+        
         try {
             conn = DBService.getinstance().getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -418,18 +428,18 @@ public class BlogDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                PostVo post = new PostVo();
-                post.setP_idx(rs.getInt("p_idx"));
-                post.setP_cate(rs.getString("p_cate"));
-                post.setP_title(rs.getString("p_title"));
-                post.setP_content(rs.getString("p_content"));
-                post.setP_rdate(rs.getDate("p_rdate"));
-                post.setP_mdate(rs.getDate("p_mdate"));
-                post.setP_type(rs.getInt("p_type"));
-                post.setP_hit(rs.getInt("p_hit"));
-                post.setM_idx(rs.getInt("m_idx"));
+                PostVo pv = new PostVo();
+                pv.setP_idx(rs.getInt("p_idx"));
+                pv.setP_cate(rs.getString("p_cate"));
+                pv.setP_title(rs.getString("p_title"));
+                pv.setP_content(rs.getString("p_content"));
+                pv.setP_rdate(rs.getTimestamp("p_rdate").toLocalDateTime().format(dtf));
+                pv.setP_mdate(rs.getTimestamp("p_mdate").toLocalDateTime().format(dtf));
+                pv.setP_type(rs.getInt("p_type"));
+                pv.setP_hit(rs.getInt("p_hit"));
+                pv.setM_idx(rs.getInt("m_idx"));
 
-                list.add(post);
+                list.add(pv);
             }
 
         } catch (Exception e) {
@@ -453,9 +463,12 @@ public class BlogDao {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        PostVo post = null;
+        PostVo pv = null;
 
         String sql = "select * from post where p_idx = ?";
+        
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
         
         try {
             conn = DBService.getinstance().getConnection();
@@ -464,16 +477,16 @@ public class BlogDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-            	post = new PostVo();
-                post.setP_idx(rs.getInt("p_idx"));
-                post.setP_cate(rs.getString("p_cate"));
-                post.setP_title(rs.getString("p_title"));
-                post.setP_content(rs.getString("p_content"));
-                post.setP_rdate(rs.getDate("p_rdate"));
-                post.setP_mdate(rs.getDate("p_mdate"));
-                post.setP_type(rs.getInt("p_type"));
-                post.setP_hit(rs.getInt("p_hit"));
-                post.setM_idx(rs.getInt("m_idx"));
+            	pv = new PostVo();
+            	pv.setP_idx(rs.getInt("p_idx"));
+            	pv.setP_cate(rs.getString("p_cate"));
+            	pv.setP_title(rs.getString("p_title"));
+            	pv.setP_content(rs.getString("p_content"));
+                pv.setP_rdate(rs.getTimestamp("p_rdate").toLocalDateTime().format(dtf));
+                pv.setP_mdate(rs.getTimestamp("p_mdate").toLocalDateTime().format(dtf));
+                pv.setP_type(rs.getInt("p_type"));
+                pv.setP_hit(rs.getInt("p_hit"));
+                pv.setM_idx(rs.getInt("m_idx"));
             }
 
         } catch (Exception e) {
@@ -488,7 +501,7 @@ public class BlogDao {
             }
         }
 
-        return post;
+        return pv;
     }
     
  // 특정 회원 게시글 조회 (m_idx를 이용한 조회)
@@ -500,6 +513,9 @@ public class BlogDao {
         ResultSet rs = null;
 
         String sql = "select * from post where m_idx = ?";
+        
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
         try {
             conn = DBService.getinstance().getConnection();
@@ -508,17 +524,17 @@ public class BlogDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                PostVo post = new PostVo();
-                post.setP_idx(rs.getInt("p_idx"));
-                post.setP_cate(rs.getString("p_cate"));
-                post.setP_title(rs.getString("p_title"));
-                post.setP_content(rs.getString("p_content"));
-                post.setP_rdate(rs.getDate("p_rdate"));
-                post.setP_mdate(rs.getDate("p_mdate"));
-                post.setP_type(rs.getInt("p_type"));
-                post.setP_hit(rs.getInt("p_hit"));
-                post.setM_idx(rs.getInt("m_idx"));
-                list.add(post);
+                PostVo pv = new PostVo();
+                pv.setP_idx(rs.getInt("p_idx"));
+                pv.setP_cate(rs.getString("p_cate"));
+                pv.setP_title(rs.getString("p_title"));
+                pv.setP_content(rs.getString("p_content"));
+                pv.setP_rdate(rs.getTimestamp("p_rdate").toLocalDateTime().format(dtf));
+                pv.setP_mdate(rs.getTimestamp("p_mdate").toLocalDateTime().format(dtf));
+                pv.setP_type(rs.getInt("p_type"));
+                pv.setP_hit(rs.getInt("p_hit"));
+                pv.setM_idx(rs.getInt("m_idx"));
+                list.add(pv);
             }
 
         } catch (Exception e) {
@@ -535,7 +551,7 @@ public class BlogDao {
         return list;
     }
     
-    // 게시글 내용 검색
+    // 게시글 내용 조회
     public List<PostVo> searchPostByContent(String keyword) {
 
         List<PostVo> list = new ArrayList<>();
@@ -543,9 +559,12 @@ public class BlogDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        String sql = "select * from post where p_content LIKE ?";
+        String sql = "select * from post where p_content like ?";
         
         String keywordF = String.format("%%%s%%", keyword);
+        
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
         try {
             conn = DBService.getinstance().getConnection();
@@ -555,17 +574,17 @@ public class BlogDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                PostVo post = new PostVo();
-                post.setP_idx(rs.getInt("p_idx"));
-                post.setP_cate(rs.getString("p_cate"));
-                post.setP_title(rs.getString("p_title"));
-                post.setP_content(rs.getString("p_content"));
-                post.setP_rdate(rs.getDate("p_rdate"));
-                post.setP_mdate(rs.getDate("p_mdate"));
-                post.setP_type(rs.getInt("p_type"));
-                post.setP_hit(rs.getInt("p_hit"));
-                post.setM_idx(rs.getInt("m_idx"));
-                list.add(post);
+                PostVo pv = new PostVo();
+                pv.setP_idx(rs.getInt("p_idx"));
+                pv.setP_cate(rs.getString("p_cate"));
+                pv.setP_title(rs.getString("p_title"));
+                pv.setP_content(rs.getString("p_content"));
+                pv.setP_rdate(rs.getTimestamp("p_rdate").toLocalDateTime().format(dtf));
+                pv.setP_mdate(rs.getTimestamp("p_mdate").toLocalDateTime().format(dtf));
+                pv.setP_type(rs.getInt("p_type"));
+                pv.setP_hit(rs.getInt("p_hit"));
+                pv.setM_idx(rs.getInt("m_idx"));
+                list.add(pv);
             }
 
         } catch (SQLException e) {
@@ -589,7 +608,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into post values(seq_post_p_idx,?,?,?,sysdate,sysdate,?,?,?)";	
+		String sql = "insert into post values(seq_post_p_idx.nextval,?,?,?,sysdate,sysdate,?,?,?)";	
 
 		try {
 
@@ -708,6 +727,9 @@ public class BlogDao {
 	    ResultSet rs = null;
 
 	    String sql = "select * from comment";
+	    
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 	    try {
 	        conn = DBService.getinstance().getConnection();
@@ -718,8 +740,8 @@ public class BlogDao {
 	            CommentVo cv = new CommentVo();
 	            cv.setC_idx(rs.getInt("c_idx"));
 	            cv.setC_content(rs.getString("c_content"));
-	            cv.setC_rdate(rs.getDate("c_rdate"));
-	            cv.setC_mdate(rs.getDate("c_mdate"));
+	            cv.setC_rdate(rs.getTimestamp("c_rdate").toLocalDateTime().format(dtf));
+	            cv.setC_mdate(rs.getTimestamp("c_mdate").toLocalDateTime().format(dtf));
 	            cv.setP_idx(rs.getInt("p_idx"));
 	            cv.setM_idx(rs.getInt("m_idx"));
 
@@ -750,6 +772,9 @@ public class BlogDao {
 	    ResultSet rs = null;
 
 	    String sql = "select * from comment where p_idx = ?";
+	    
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 	    try {
 	        conn = DBService.getinstance().getConnection();
@@ -761,8 +786,8 @@ public class BlogDao {
 	            CommentVo cv = new CommentVo();
 	            cv.setC_idx(rs.getInt("c_idx"));
 	            cv.setC_content(rs.getString("c_content"));
-	            cv.setC_rdate(rs.getDate("c_rdate"));
-	            cv.setC_mdate(rs.getDate("c_mdate"));
+	            cv.setC_rdate(rs.getTimestamp("c_rdate").toLocalDateTime().format(dtf));
+	            cv.setC_mdate(rs.getTimestamp("c_mdate").toLocalDateTime().format(dtf));
 	            cv.setP_idx(rs.getInt("p_idx"));
 	            cv.setM_idx(rs.getInt("m_idx"));
 
@@ -793,6 +818,9 @@ public class BlogDao {
 	    ResultSet rs = null;
 
 	    String sql = "select * from comment where m_idx = ?";
+	    
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 	    try {
 	        conn = DBService.getinstance().getConnection();
@@ -804,8 +832,8 @@ public class BlogDao {
 	            CommentVo cv = new CommentVo();
 	            cv.setC_idx(rs.getInt("c_idx"));
 	            cv.setC_content(rs.getString("c_content"));
-	            cv.setC_rdate(rs.getDate("c_rdate"));
-	            cv.setC_mdate(rs.getDate("c_mdate"));
+	            cv.setC_rdate(rs.getTimestamp("c_rdate").toLocalDateTime().format(dtf));
+	            cv.setC_mdate(rs.getTimestamp("c_mdate").toLocalDateTime().format(dtf));
 	            cv.setP_idx(rs.getInt("p_idx"));
 	            cv.setM_idx(rs.getInt("m_idx"));
 
@@ -837,6 +865,9 @@ public class BlogDao {
         String sql = "select * from comment where c_content like ?";
         String keywordF = String.format("%%%s%%", keyword);
         
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+        
         try {
             conn = DBService.getinstance().getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -846,15 +877,15 @@ public class BlogDao {
             rs = pstmt.executeQuery();
             
             while (rs.next()) {
-                CommentVo comment = new CommentVo();
-                comment.setC_idx(rs.getInt("c_idx"));
-                comment.setC_content(rs.getString("c_content"));
-                comment.setC_rdate(rs.getDate("c_rdate"));
-                comment.setC_mdate(rs.getDate("c_mdate"));
-                comment.setP_idx(rs.getInt("p_idx"));
-                comment.setM_idx(rs.getInt("m_idx"));
+                CommentVo cv = new CommentVo();
+                cv.setC_idx(rs.getInt("c_idx"));
+                cv.setC_content(rs.getString("c_content"));
+                cv.setC_rdate(rs.getTimestamp("c_rdate").toLocalDateTime().format(dtf));
+                cv.setC_mdate(rs.getTimestamp("c_mdate").toLocalDateTime().format(dtf));
+                cv.setP_idx(rs.getInt("p_idx"));
+                cv.setM_idx(rs.getInt("m_idx"));
                 
-                list.add(comment);
+                list.add(cv);
             }
             
         } catch (SQLException e) {
@@ -879,7 +910,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into comment values(seq_comment_c_idx,?,sysdate,sysdate,?,?)";	
+		String sql = "insert into comment values(seq_comment_c_idx.nextval,?,sysdate,sysdate,?,?)";	
 
 		try {
 
@@ -1084,16 +1115,16 @@ public class BlogDao {
 	}
 	
 	// 사용자가 게시글에 대해 좋아요 또는 스크랩한 목록 확인
-	public boolean isUserLikeOrScrap(int m_idx, int l_type) {
-		
-	    boolean likeOrScrap = false;
+	public List<PostVo> getUserLikeOrScrapPosts(int m_idx, int l_type) {
 	    
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 
-	    String sql = "select * from post_like where m_idx = ? and l_type = ?";
-
+	    String sql = "select p.* from post p join post_like pl on p.p_idx = pl.p_idx where m_idx = ? and l_type = ?";
+	    
+	    List<PostVo> postList = new ArrayList<>();
+	    
 	    try {
 	        conn = DBService.getinstance().getConnection();
 	        pstmt = conn.prepareStatement(sql);
@@ -1101,10 +1132,24 @@ public class BlogDao {
 	        pstmt.setInt(2, l_type);
 	        rs = pstmt.executeQuery();
 	        
-	        // 해당 게시글에 대해 좋아요 또는 스크랩을 한 경우
-	        if (rs.next()) {
-	        	likeOrScrap = true;
-	        }
+	        // 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+	        
+	        
+	        while (rs.next()) {
+                PostVo pv = new PostVo();
+                pv.setP_idx(rs.getInt("p_idx"));
+                pv.setP_cate(rs.getString("p_cate"));
+                pv.setP_title(rs.getString("p_title"));
+                pv.setP_content(rs.getString("p_content"));
+                pv.setP_rdate(rs.getTimestamp("p_rdate").toLocalDateTime().format(dtf));
+    	        pv.setP_mdate(rs.getTimestamp("p_mdate").toLocalDateTime().format(dtf));
+    	        pv.setP_type(rs.getInt("p_type"));
+    	        pv.setP_hit(rs.getInt("p_hit"));
+    	        pv.setM_idx(rs.getInt("m_idx"));
+                postList.add(pv);
+            }
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } finally {
@@ -1116,7 +1161,219 @@ public class BlogDao {
 	            e.printStackTrace();
 	        }
 	    }
-	    return likeOrScrap;
+	    return postList;
 	}
 	
+    // 게시글 당 스크랩한 수
+    public int getPostScrapCount(int p_idx) {
+        
+        int scrapCount = 0;
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sql = "select count(*) from post_like where p_idx = ? and l_type = 2";
+
+        try {
+            conn = DBService.getinstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, p_idx);
+            rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                scrapCount = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return scrapCount;
+    }
+    
+    // 게시글 당 스크랩한 수
+    public int getPostLikeCount(int p_idx) {
+        
+        int likeCount = 0;
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sql = "select count(*) from post_like where p_idx = ? and l_type = 1";
+
+        try {
+            conn = DBService.getinstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, p_idx);
+            rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+            	likeCount = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return likeCount;
+    }
+    
+    // 사용자가 좋아요한 게시글의 개수
+    public int getUserLikeCount(int m_idx) {
+        
+        int likeCount = 0;
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sql = "select count(*) from post_like where m_idx = ? and l_type = 2";
+
+        try {
+            conn = DBService.getinstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, m_idx);
+            rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+            	likeCount = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return likeCount;
+    }
+    
+    // 사용자가 스크랩한 게시글의 개수
+    public int getUserScrapCount(int m_idx) {
+        
+        int scrapCount = 0;
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sql = "select count(*) from post_like where m_idx = ? and l_type = 2";
+
+        try {
+            conn = DBService.getinstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, m_idx);
+            rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                scrapCount = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return scrapCount;
+    }
+	
+    // 공지사항 등록
+    public int insertNotice(PostVo vo) {
+    	
+        int res = 0;
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        String sql = "insert into post values (seq_post_p_idx.nextval, ?, ?, ?, sysdate, sysdate, 2, 1, ?)";
+
+        try {
+            conn = DBService.getinstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+            
+            // XSS 방어를 위해 이스케이프 처리
+            String p_cate = Util.escapeHtml(vo.getP_cate());
+            String p_title = Util.escapeHtml(vo.getP_title());
+            String p_content = Util.escapeHtml(vo.getP_content());
+
+            pstmt.setString(1, p_cate);
+            pstmt.setString(2, p_title);
+            pstmt.setString(3, p_content);
+            pstmt.setInt(4, vo.getM_idx());
+
+            res = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+    
+    // 공지사항 수정 (p_idx)
+    public int updateNotice(PostVo vo) {
+    	
+        int res = 0;
+        
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        String sql = "update post set p_cate = ?, p_title = ?, p_content = ?, p_mdate = sysdate where p_idx = ? and p_type = 2";
+
+        try {
+            conn = DBService.getinstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+            
+            // XSS 방어를 위해 이스케이프 처리
+            String p_cate = Util.escapeHtml(vo.getP_cate());
+            String p_title = Util.escapeHtml(vo.getP_title());
+            String p_content = Util.escapeHtml(vo.getP_content());
+
+            pstmt.setString(1, p_cate);
+            pstmt.setString(2, p_title);
+            pstmt.setString(3, p_content);
+            pstmt.setInt(4, vo.getP_idx());
+
+            res = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+    
 }

@@ -1,15 +1,13 @@
 package vo;
 
-import java.sql.Date;
-
 public class PostVo {
 	
 	private int p_idx;
 	private String p_cate;
 	private String p_title;
 	private String p_content;
-	private Date p_rdate;
-	private Date p_mdate;
+	private String p_rdate;
+	private String p_mdate;
 	private int p_type;
 	private int p_hit;
 	private int m_idx;
@@ -46,19 +44,19 @@ public class PostVo {
 		this.p_content = p_content;
 	}
 	
-	public Date getP_rdate() {
+	public String getP_rdate() {
 		return p_rdate;
 	}
 	
-	public void setP_rdate(Date p_rdate) {
+	public void setP_rdate(String p_rdate) {
 		this.p_rdate = p_rdate;
 	}
 	
-	public Date getP_mdate() {
+	public String getP_mdate() {
 		return p_mdate;
 	}
 	
-	public void setP_mdate(Date p_mdate) {
+	public void setP_mdate(String p_mdate) {
 		this.p_mdate = p_mdate;
 	}
 	
