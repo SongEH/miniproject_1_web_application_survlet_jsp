@@ -11,6 +11,7 @@ import java.util.List;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import service.DBService;
 import util.Util;
 import vo.CommentVo;
@@ -208,13 +209,13 @@ public class BlogDao {
 	
 	// 로그인 기능
 	// remember me 옵션을 선택할 시 쿠키를 생성하여 로그인 상태 유지
-	public boolean login(String m_id, String m_pw, String remember, HttpServletRequest req, HttpServletResponse resp) {
+	public MemberVo login(String m_id, String m_pw, String remember, HttpServletRequest req, HttpServletResponse resp) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		boolean status = false;
+		MemberVo mv = null;
 		
 		try {
 			String sql = "select * from member where m_id = ? and m_pw = ?";
@@ -224,23 +225,28 @@ public class BlogDao {
 			
 			pstmt.setString(1, m_id);
 			pstmt.setString(2, Util.MD5(m_pw));
+			
 			rs = pstmt.executeQuery();
-			status = rs.next();
 			// 로그인 성공 했을 경우
-			if(status) {
-				// 세션 생성
-				int m_idx = rs.getInt("m_idx");
-				String m_name = rs.getString("m_name");
-				// 세션에 m_idx와 m_name 추가
-				req.getSession().setAttribute("m_idx", m_idx);
-	            req.getSession().setAttribute("m_name", m_name);
+			if(rs.next()) {
+				mv = new MemberVo();
+                mv.setM_idx(rs.getInt("m_idx"));
+                mv.setM_name(rs.getString("m_name"));
+                mv.setM_id(rs.getString("m_id"));
+                mv.setM_type(rs.getInt("m_type"));
+                
+                // 세션에 필요한 사용자 정보 저장
+                HttpSession session = req.getSession();
+                session.setAttribute("m_idx", mv.getM_idx());
+                session.setAttribute("m_name", mv.getM_name());
+                session.setAttribute("m_id", mv.getM_id());
+                session.setAttribute("m_type", mv.getM_type());
 	            
 	            // 쿠키 생성
 	            if (remember != null) {
-	            	m_name = m_name.replaceAll(" ", "_");
-	            	String vlaue = m_idx + "_" + m_name;
-	            	// user라는 쿠키 추가
-	            	Cookie cookie = new Cookie("user", vlaue);
+	            	String value = mv.getM_idx() + "_" + mv.getM_name().replaceAll(" ", "_");
+	            	// user라는 value를 가진 쿠키 추가
+	            	Cookie cookie = new Cookie("user", value);
 	            	// 쿠키 만료 시간 (일주일 유지)
 	                cookie.setMaxAge(60 * 60 * 24 * 7);
 	                // 쿠키 응답 추가
@@ -263,7 +269,7 @@ public class BlogDao {
 			}
 
 		}
-		return status;
+		return mv;
 	} 
 	
 	// 이메일을 통한 아이디 찾기
