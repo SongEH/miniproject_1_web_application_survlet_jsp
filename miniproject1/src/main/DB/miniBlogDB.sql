@@ -11,6 +11,9 @@ create table member(
 	m_type	int default 1 					-- 구분(일반:1, 관리자:2)
 );
 
+drop table member; 
+
+
 SELECT * FROM member WHERE m_id = 'admin' AND m_pw = 'admin';
 
 select * from member

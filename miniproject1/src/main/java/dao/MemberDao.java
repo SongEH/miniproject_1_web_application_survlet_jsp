@@ -116,5 +116,35 @@ public class MemberDao {
 		return res;
 	}
 
+	// 회원 탈퇴
+	public int memberDelete(String m_id) {
+		int res = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		String sql = "delete from member where m_id = ?";
+
+		try {
+			conn = DBService.getinstance().getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1,m_id);
+
+			res = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return res;
+	}
+		
 	
 }
