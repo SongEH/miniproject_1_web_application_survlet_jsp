@@ -729,7 +729,7 @@ public class BlogDao {
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 
-	    String sql = "select * from comment";
+	    String sql = "select * from comments";
 	    
 		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
@@ -774,7 +774,7 @@ public class BlogDao {
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 
-	    String sql = "select * from comment where p_idx = ?";
+	    String sql = "select * from comments where p_idx = ?";
 	    
 		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
@@ -820,7 +820,7 @@ public class BlogDao {
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 
-	    String sql = "select * from comment where m_idx = ?";
+	    String sql = "select * from comments where m_idx = ?";
 	    
 		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
@@ -865,7 +865,7 @@ public class BlogDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
-        String sql = "select * from comment where c_content like ?";
+        String sql = "select * from comments where c_content like ?";
         String keywordF = String.format("%%%s%%", keyword);
         
 		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
@@ -913,7 +913,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into comment values(seq_comment_c_idx.nextval,?,sysdate,sysdate,?,?)";	
+		String sql = "insert into comments values(seq_comments_c_idx.nextval,?,sysdate,sysdate,?,?)";	
 
 		try {
 
@@ -954,7 +954,7 @@ public class BlogDao {
 		String sql = null;
 		
 		try {
-			sql = "update comment set c_content = ?, c_mdate = sysdate where c_idx = ?";
+			sql = "update comments set c_content = ?, c_mdate = sysdate where c_idx = ?";
 			
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -990,7 +990,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "delete from comment where c_idx = ?";
+		String sql = "delete from comments where c_idx = ?";
 
 		try {
 			conn = DBService.getinstance().getConnection();
@@ -1056,7 +1056,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "delete from comment where l_idx = ?";
+		String sql = "delete from post_like where l_idx = ?";
 
 		try {
 			conn = DBService.getinstance().getConnection();
