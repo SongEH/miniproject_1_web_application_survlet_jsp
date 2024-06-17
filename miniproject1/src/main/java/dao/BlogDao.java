@@ -216,7 +216,7 @@ public class BlogDao {
 		boolean status = false;
 		
 		try {
-			String sql = "select * from member where m_id = ? and m_pw ?";
+			String sql = "select * from member where m_id = ? and m_pw = ?";
 			
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -240,8 +240,8 @@ public class BlogDao {
 	            	String vlaue = m_idx + "_" + m_name;
 	            	// user라는 쿠키 추가
 	            	Cookie cookie = new Cookie("user", vlaue);
-	            	// 쿠키 만료 시간
-	                cookie.setMaxAge(60 * 60 * 30);
+	            	// 쿠키 만료 시간 (일주일 유지)
+	                cookie.setMaxAge(60 * 60 * 24 * 7);
 	                // 쿠키 응답 추가
 	                resp.addCookie(cookie);
 	            }
@@ -507,7 +507,7 @@ public class BlogDao {
         return pv;
     }
     
- // 특정 회원 게시글 조회 (m_idx를 이용한 조회)
+    // 특정 회원 게시글 조회 (m_idx를 이용한 조회)
     public List<PostVo> selectPostsByMidx(int m_idx) {
 
         List<PostVo> list = new ArrayList<>();
