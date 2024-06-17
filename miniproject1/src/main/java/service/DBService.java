@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBService {
+	
+	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String user = "test";
+	private String pwd = "test";
 
 	static {
 
@@ -30,9 +34,6 @@ public class DBService {
 	}
 
 	public Connection getConnection() throws SQLException {
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "test";
-		String pwd = "test";
 
 		Connection conn = DriverManager.getConnection(url, user, pwd);
 
