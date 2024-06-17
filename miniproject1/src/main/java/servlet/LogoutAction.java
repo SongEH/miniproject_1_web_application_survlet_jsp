@@ -2,6 +2,7 @@ package servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +28,11 @@ public class LogoutAction extends HttpServlet {
             // 세션을 무효화
             session.invalidate();
         }
+        
+        // 쿠키 종료
+        Cookie cookie = new Cookie("user", "");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
 
         // 로그아웃 후 로그인 페이지 또는 홈 페이지로 리다이렉트
         response.sendRedirect("");
