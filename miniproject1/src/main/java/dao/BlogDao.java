@@ -1201,7 +1201,7 @@ public class BlogDao {
         return scrapCount;
     }
     
-    // 게시글 당 스크랩한 수
+    // 게시글 당 좋아요한 수
     public int getPostLikeCount(int p_idx) {
         
         int likeCount = 0;
