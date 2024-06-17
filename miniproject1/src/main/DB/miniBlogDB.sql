@@ -21,7 +21,7 @@ alter table member add constraint ck_member_m_type check m_type in (1,2);
 create sequence seq_member_m_idx;
 
 -- 더미데이터 혹은 관리자 계정 설정
-insert into member values (seq_member_m_idx.nextval,name,id,pw,email,intro,rdate,mdate,2);
+insert into member values (seq_member_m_idx,name,id,pw,email,intro,rdate,mdate,2);
 
 
 -- 게시글 테이블
@@ -50,7 +50,7 @@ alter table member add constraint ck_post_p_type check p_type in (1,2);
 create sequence seq_post_p_idx;
 
 -- 더미데이터 혹은 공지사항 설정
-insert into post values (seq_post_p_idx.nextval,cate,title,content,edate,mdate,2,hit,m_idx);
+insert into post values (seq_post_p_idx,cate,title,content,edate,mdate,2,hit,m_idx);
 
 
 -- 게시글 좋아요/스크랩 테이블
@@ -80,7 +80,7 @@ alter table post_like add constraint unique_post_like unique (p_dix, m_dix);
 create sequence seq_post_like_l_idx;
 
 -- 더미데이터 혹은 공지사항 설정
-insert into post_like values (seq_post_like_l_idx.nextval,rdate,mdate,type,m_idx,p_idx);
+insert into post_like values (seq_post_like_l_idx,rdate,mdate,type,m_idx,p_idx);
 
 
 -- 댓글 테이블
@@ -104,4 +104,4 @@ alter table comment add constraint fk_comment_p_idx foreign key (p_dix) referenc
 create sequence seq_comment_c_idx;
 
 -- 더미데이터 설정
-insert into post_like values (seq_comment_c_idx.nextval,content,rdate,mdate,p_idx,m_idx);
+insert into post_like values (seq_comment_c_idx,content,rdate,mdate,p_idx,m_idx);
