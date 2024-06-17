@@ -32,6 +32,7 @@ public class BlogDao {
 
 	private BlogDao() {
 	}
+
 	
 	// 회원 가입 기능
 	public int memberInsert(MemberVo vo) {
