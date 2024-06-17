@@ -8,6 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import service.DBService;
 import util.Util;
 import vo.CommentVo;
@@ -16,7 +19,7 @@ import vo.PostVo;
 import vo.Post_LikeVo;
 
 public class BlogDao {
-	// 싱글톤
+	// 싱글톤화
 	static BlogDao single = null;
 	
 	public static BlogDao getinstance() {
@@ -204,7 +207,7 @@ public class BlogDao {
 	
 	// 로그인 기능
 	// remember me 옵션을 선택할 시 쿠키를 생성하여 로그인 상태 유지
-/*	public boolean login(String m_id, String m_pw, String remember, HttpServletRequest req, HttpServletResponse resp) {
+	public boolean login(String m_id, String m_pw, String remember, HttpServletRequest req, HttpServletResponse resp) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -261,7 +264,7 @@ public class BlogDao {
 		}
 		return status;
 	} 
-*/	
+	
 	// 이메일을 통한 아이디 찾기
 	public String getId(String m_email) {
         String id = "";
@@ -1338,7 +1341,7 @@ public class BlogDao {
         return res;
     }
     
-    // 공지사항 수정 (p_idx)
+    // 공지사항 수정
     public int updateNotice(PostVo vo) {
     	
         int res = 0;
