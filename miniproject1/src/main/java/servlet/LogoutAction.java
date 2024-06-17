@@ -20,15 +20,15 @@ public class LogoutAction extends HttpServlet {
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 현재 세션을 가져옵니다. 세션이 없으면 null을 반환합니다.
+		// 현재 세션을 가져오기, 세션이 없으면 null을 반환
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            // 세션을 무효화합니다.
+            // 세션을 무효화
             session.invalidate();
         }
 
-        // 로그아웃 후 로그인 페이지 또는 홈 페이지로 리다이렉트합니다.
+        // 로그아웃 후 로그인 페이지 또는 홈 페이지로 리다이렉트
         response.sendRedirect("");
 	}
 
