@@ -5,11 +5,15 @@ create table member(
 	m_id	varchar2(50) not null,			-- 아이디
 	m_pw	varchar2(50) not null,			-- 비밀번호
 	m_email	varchar2(50) not null unique,	-- 이메일
-	m_intro	varchar2(100) default '안녕하세요',	-- 자기소개
+	m_intro	varchar2(100) default '안녕하세요',	-- 자기소개 
 	m_rdate	date default sysdate,			-- 등록일자
 	m_mdate	date default sysdate,			-- 수정일자
 	m_type	int default 1 					-- 구분(일반:1, 관리자:2)
 );
+
+SELECT * FROM member WHERE m_id = 'admin' AND m_pw = 'admin';
+
+select * from member
 
 -- Primary Key
 alter table member add constraint pk_member_m_idx primary key(m_idx);
@@ -20,10 +24,14 @@ alter table member add constraint ck_member_m_type check (m_type in (1,2));
 -- Sequence 지정
 create sequence seq_member_m_idx;
 
--- 더미데이터 혹은 관리자 계정 설정
-insert into member values (seq_member_m_idx.nextval,name,id,pw,email,intro,rdate,mdate,2);
+-- 더미데이터 혹은 관리자 계정 설정 
+insert into member(m_idx, m_name, m_id, m_pw, m_email, m_type) values (1, '관리자', 'admin', 'admin', 'admin@admin.com', 2);
 
 
+
+
+
+-- ============================================================
 -- 게시글 테이블
 create table post(
 	p_idx		int not null,			-- 게시번호

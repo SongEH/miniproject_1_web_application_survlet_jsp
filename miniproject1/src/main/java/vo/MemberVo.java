@@ -100,6 +100,16 @@ public class MemberVo {
 		this.m_mdate = m_mdate;
 		this.m_type = m_type;
 	}
+
+	public MemberVo(String m_name, String m_id, String m_pw, String m_email) {
+		super();
+		this.m_name = m_name;
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+		this.m_email = m_email;
+	}
+	
+	
 	
 	
 }
