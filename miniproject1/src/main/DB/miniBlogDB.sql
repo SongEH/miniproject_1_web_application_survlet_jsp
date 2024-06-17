@@ -80,7 +80,7 @@ alter table post_like add constraint unique_post_like unique (p_dix, m_dix);
 create sequence seq_post_like_l_idx;
 
 -- 더미데이터 혹은 공지사항 설정
-insert into post_like values (seq_post_like_l_idx,rdate.nextval,mdate,type,m_idx,p_idx);
+insert into post_like values (seq_post_like_l_idx.nextval,rdate.nextval,mdate,type,m_idx,p_idx);
 
 
 -- 댓글 테이블
