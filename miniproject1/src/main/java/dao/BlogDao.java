@@ -233,14 +233,14 @@ public class BlogDao {
                 mv.setM_idx(rs.getInt("m_idx"));
                 mv.setM_name(rs.getString("m_name"));
                 mv.setM_id(rs.getString("m_id"));
+                mv.setM_email(rs.getString("m_email"));
+                mv.setM_intro(rs.getString("m_intro"));
+                mv.setM_mdate(rs.getString("m_mdate"));
                 mv.setM_type(rs.getInt("m_type"));
                 
                 // 세션에 필요한 사용자 정보 저장
                 HttpSession session = req.getSession();
-                session.setAttribute("m_idx", mv.getM_idx());
-                session.setAttribute("m_name", mv.getM_name());
-                session.setAttribute("m_id", mv.getM_id());
-                session.setAttribute("m_type", mv.getM_type());
+                session.setAttribute("member", mv);
 	            
 	            // 쿠키 생성
 	            if (remember != null) {
