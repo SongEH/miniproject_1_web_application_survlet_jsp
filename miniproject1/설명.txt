@@ -27,5 +27,3 @@
 	Cookie cookie = new Cookie("user", value);
 	쿠키를 선언하고 쿠키 이름을 "user" 로 지정 하고 그 값에 value 를 넣습니다.
 	value에 "" 이 있으면 쿠키 삭제입니다.
-
-3.
