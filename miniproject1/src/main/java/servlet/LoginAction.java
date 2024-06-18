@@ -39,7 +39,7 @@ public class LoginAction extends HttpServlet {
             // 로그인 성공 시 세션에 회원 정보를 저장
             HttpSession session = request.getSession();
             session.setAttribute("member", mv);
-            response.sendRedirect("홈페이지 메인");
+            response.sendRedirect("login.jsp");
         } else {
             // 로그인 실패 시 로그인 페이지로 리다이렉트
             response.sendRedirect("login.jsp?error=1");
