@@ -18,19 +18,19 @@ import vo.MemberVo;
 import vo.PostVo;
 import vo.Post_LikeVo;
 
-public class BlogDao {
+public class old_BlogDao {
 	// 싱글톤화
-	static BlogDao single = null;
+	static old_BlogDao single = null;
 	
-	public static BlogDao getinstance() {
+	public static old_BlogDao getinstance() {
 
 		if (single == null)
-			single = new BlogDao();
+			single = new old_BlogDao();
 
 		return single;
 	}
 
-	private BlogDao() {
+	private old_BlogDao() {
 	}
 	
 	// 회원 가입 기능
