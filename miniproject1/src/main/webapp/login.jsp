@@ -4,7 +4,7 @@
 <html>
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <title>JSP - Hello World</title>
+    <title>로그인을 해주세요</title>
 </head>
 <body>
 <div class="container">
@@ -19,7 +19,7 @@
                     String errorMessage = ""+loginObj;
             %>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>안녕?</strong> <%=errorMessage %>
+                <strong>아이디 및 비밀번호가 틀리셨습니다.</strong><br><%=errorMessage %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <% } %>
@@ -37,7 +37,7 @@
                 </div>
                 <input class="btn btn-success" type="submit" value="로그인" />
                 <a href="findpwd.jsp" class="btn btn-info btn-md" >비밀번호 찾기</a>
-                <a href="회원가입.jsp" class="btn btn-info btn-md" >회원가입</a>
+                <a href="joinmember.jsp" class="btn btn-info btn-md" >회원가입</a>
                 <a href="logout.do" class="btn btn-warning btn-md" >로그아웃</a>
             </form>
 
