@@ -4,9 +4,8 @@
 <%
 	MemberVo mv = (MemberVo) session.getAttribute("member");
 	int m_type = mv.getM_type();
-	if (m_type == 2){
-		RequestDispatcher dispatcher = request.getRequestDispatcher("../admin/mainpage(admin).jsp");
-        dispatcher.forward(request, response);
+	if (m_type != 2){
+		response.sendRedirect("../main/mainpage(login_after).jsp");
 	}
 %>
 <!DOCTYPE html>
@@ -57,6 +56,8 @@ margin-left : auto;
 							<li class="nav-item"><a class="nav-link" id="logout" href="../../logout.do"><img src="$" alt="로그아웃"></a>
 							</li>
 							<li class="nav-item"><a class="nav-link" id="link1" href="../mypage/mypage.jsp"><img src="$" alt="마이페이지"></a>
+							</li>
+							<li class="nav-item"><a class="nav-link" id="admin_menu" href="../admin/admin_menu.jsp"><img src="$" alt="관리페이지"></a>
 							</li>
 							<li class="nav-item">
 								<button type="button" class="btn btn-primary dropdown-toggle"
