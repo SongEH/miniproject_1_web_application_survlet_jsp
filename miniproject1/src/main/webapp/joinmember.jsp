@@ -16,7 +16,7 @@
 
             <form action="register.do" method="post">
                 <div class="mb-3">
-                    이름<input type="text" class="form-control" name="m_name" placeholder="이름" required />
+                    닉네임<input type="text" class="form-control" name="m_name" placeholder="닉네임" required />
                 </div>
                 <div class="mb-3">
                     아이디<input type="text" class="form-control" name="m_id" placeholder="아이디" required />
@@ -33,7 +33,6 @@
                 <input class="btn btn-success" type="submit" value="회원가입" />
             </form>
             <a href="login.jsp" class="btn btn-info btn-md" >취소</a>
-
         </div>
         <div class="col-sm-4"></div>
     </div>
