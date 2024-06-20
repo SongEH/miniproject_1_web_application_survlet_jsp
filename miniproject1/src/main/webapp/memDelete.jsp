@@ -14,7 +14,7 @@
 
 	
 	// SQL 실행
-    int res = MemberDao.getinstance().memberDelete(m_id);
+    int res = memberDao.getinstance().memberDelete(m_id);
 	
     if(res == 1) {
 		System.out.println("삭제 성공!");

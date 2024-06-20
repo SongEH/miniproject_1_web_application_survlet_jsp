@@ -33,7 +33,7 @@
         
         <% 
             try {          
-                List<MemberVo> memberList = MemberDao.getinstance().selectMemberList();
+                List<MemberVo> memberList = memberDao.getinstance().selectMemberList();
 
                 // 회원 목록 출력
                 for (MemberVo member : memberList) {

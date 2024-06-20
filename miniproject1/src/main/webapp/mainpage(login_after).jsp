@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="vo.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,20 +45,7 @@ margin-left : auto;
 					</button>
 					<div class="collapse navbar-collapse" id="mynavbar">
 						<ul class="navbar-nav ms-auto">
-							<li class="nav-item"><a class="nav-link" id="link1" href="login.jsp">로그인</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" id="link2" href="register.jsp">회원가입</a>
-							</li>
-							<%	
-								MemberVo mv = (MemberVo)session.getAttribute("member");
-								if(mv != null && mv.getM_type() == 2){
-							%>
-							
-								<li class="nav-item"><a class="nav-link" id="link2" href="adminMemList.jsp">관리자페이지</a>
-							<%		
-								}
-							%>
-							
+							<li class="nav-item"><a class="nav-link" id="link1" href="#"><img src="$" alt="마이페이지"></a>
 							</li>
 							<li class="nav-item">
 								<button type="button" class="btn btn-primary dropdown-toggle"

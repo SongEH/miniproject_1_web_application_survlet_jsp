@@ -29,7 +29,7 @@
         MemberVo vo = new MemberVo(m_name, m_id, m_pw, m_email);
         
         // SQL 실행
-        MemberDao.getinstance().memberInsert(vo);
+        memberDao.getinstance().memberInsert(vo);
         
         
     } catch (Exception e) {

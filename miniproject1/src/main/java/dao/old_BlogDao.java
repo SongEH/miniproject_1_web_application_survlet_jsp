@@ -314,11 +314,9 @@ public class old_BlogDao {
 		// 새 비밀번호랑 확인용이 같다면
         if (newPassword.equals(newPasswordr)) {
             try {
-                String sql = "update member set m_pw = ?  where m_pw = ? and m_idx = ? ";
-                
+                String sql = "update member set m_pw = ? where m_pw = ? and m_idx = ? ";
                 conn = DBService.getinstance().getConnection();
                 pstmt = conn.prepareStatement(sql);
-                
                 pstmt.setString(1, Util.MD5(newPassword));
                 pstmt.setString(2, Util.MD5(oldPassword));
                 pstmt.setInt(3, m_idx);
@@ -339,12 +337,10 @@ public class old_BlogDao {
     				e.printStackTrace();
     			}
             }
-
         } else {
         	// 새로운 비밀번호들이 일치하지 않을 때
         	res = -2;
         }
-
         return res;
     }
 	

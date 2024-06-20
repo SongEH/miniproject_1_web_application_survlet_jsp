@@ -16,19 +16,19 @@ import service.DBService;
 import util.Util;
 import vo.MemberVo;
 
-public class MemberDao {
+public class memberDao {
 	
-	static MemberDao single = null;
+	static memberDao single = null;
 
-	public static MemberDao getinstance() {
+	public static memberDao getinstance() {
 
 		if (single == null)
-			single = new MemberDao();
+			single = new memberDao();
 
 		return single;
 	}
 
-	private MemberDao() {
+	private memberDao() {
 	}
 	
 	// 로그인 기능
@@ -104,7 +104,7 @@ public class MemberDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "INSERT INTO member (m_idx, m_name, m_id, m_pw, m_email) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO member (m_idx, m_name, m_id, m_pw, m_email) VALUES (seq_member_m_idx.nextval, ?, ?, ?, ?)";
 		try {
 
 			conn = DBService.getinstance().getConnection();
@@ -114,12 +114,10 @@ public class MemberDao {
             String m_name = Util.escapeHtml(vo.getM_name());
             String m_email = Util.escapeHtml(vo.getM_email());
 			
-            pstmt.setInt(1, 99); // 여기 시퀀스 추가해야됨 
-            
-			pstmt.setString(2, m_name);
-			pstmt.setString(3, vo.getM_id());
-			pstmt.setString(4, Util.MD5(vo.getM_pw()));
-			pstmt.setString(5, m_email);
+			pstmt.setString(1, m_name);
+			pstmt.setString(2, vo.getM_id());
+			pstmt.setString(3, Util.MD5(vo.getM_pw()));
+			pstmt.setString(4, m_email);
 			
 			res = pstmt.executeUpdate();
 			System.out.println("회원가입 성공!!");

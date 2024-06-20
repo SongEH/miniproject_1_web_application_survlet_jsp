@@ -15,7 +15,7 @@
     
     // DB에서 회원 정보를 확인
         
-    MemberVo mv = MemberDao.getinstance().login(m_id, m_pw, remember, request, response);
+    MemberVo mv = memberDao.getinstance().login(m_id, m_pw, remember, request, response);
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
