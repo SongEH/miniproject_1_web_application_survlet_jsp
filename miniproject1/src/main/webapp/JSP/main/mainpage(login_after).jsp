@@ -1,12 +1,21 @@
+<%@page import="util.Util"%>
 <%@page import="vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<jsp:useBean id="util" class="util.Util"></jsp:useBean>
 <%
-	MemberVo mv = (MemberVo) session.getAttribute("member");
-	int m_type = mv.getM_type();
-	if (m_type == 2){
-		RequestDispatcher dispatcher = request.getRequestDispatcher("../admin/mainpage(admin).jsp");
-        dispatcher.forward(request, response);
+	// 로그인 확인
+	if (!Util.isLogIn(request)) {
+	// 로그인이 되어 있지 않을 경우
+    response.sendRedirect("mainpage2(login_before).jsp");
+    } else {
+ 		// 세션에서 정보 가져오기
+    	MemberVo mv = (MemberVo) session.getAttribute("member");
+    	// 관리자일 경우
+        int m_type = mv.getM_type();
+        if (m_type == 2) {
+        	response.sendRedirect("../admin/mainpage(admin).jsp"); // 관리자인 경우 관리자 페이지로 리다이렉트
+        }
 	}
 %>
 <!DOCTYPE html>

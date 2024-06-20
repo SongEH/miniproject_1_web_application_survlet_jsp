@@ -21,9 +21,42 @@
 		은 미니프로젝트 메인 홈으로 돌려보낼때 사용할려고 했던 메소드로 다시 넣을 수도 있습니다.
 		현재는 사용하는데에 혼선이 올 수 있어서 삭제했습니다.
 		
+		
 2. 	cookie 에 대한 설명
 	
 	쿠키(인터넷 쿠키)는 사용자 이름과 비밀번호 등과 같은 작은 데이터 조각이 있는 텍스트 파일로, 사용자가 네트워크를 이용할 때 사용자의 컴퓨터를 식별하기 위해 사용
 	Cookie cookie = new Cookie("user", value);
 	쿠키를 선언하고 쿠키 이름을 "user" 로 지정 하고 그 값에 value 를 넣습니다.
 	value에 "" 이 있으면 쿠키 삭제입니다.
+
+
+3.	로그인 확인 메서드 혹은 관리자 확인 메서드 추가 사용방법
+	
+	// 자바빈을 사용 선언
+	// 기능 확장 및 코드 재사용을 위함
+	<jsp:useBean id="util" class="util.Util"></jsp:useBean>
+	
+	
+	선언을 먼저 한 후
+	로그인을 확인하는 메서드를 실행
+	
+	// 로그인 확인
+	if (!Util.isLogIn(request)) {
+	// 로그인이 되어 있지 않을 경우
+    response.sendRedirect("mainpage2(login_before).jsp");
+    }
+    
+    
+    여기까지만 작성해주시고 관리자라는 것을 확인을 해야하는 경우에
+    
+	else {
+		// 세션에서 정보 가져오기
+		MemberVo mv = (MemberVo) session.getAttribute("member");
+		// 관리자일 경우
+		int m_type = mv.getM_type();
+		if (m_type == 2) {
+			response.sendRedirect("../admin/mainpage(admin).jsp"); // 관리자인 경우 관리자 페이지로 리다이렉트
+        }
+	}
+	
+	을 추가적으로 선언해주시면 됩니다.
