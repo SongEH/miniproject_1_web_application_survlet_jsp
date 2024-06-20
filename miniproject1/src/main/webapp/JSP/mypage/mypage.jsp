@@ -73,38 +73,15 @@ body{
 				생년월일
 				
 			</div><br>
-				
-			<div>
-				성별
-				<div class="form-check">
-					<input type="radio" class="form-check-input" id="man" name="gendeer" value="남자">
-					<label class="form-check-label" for="man">남자</label>
-				</div>
-				<div class="form-check">
-					<input type="radio" class="form-check-input" id="woman" name="gendeer" value="남자">
-					<label class="form-check-label" for="woman">여자</label>
-				</div>
-				<div class="form-check">
-					<input type="radio" class="form-check-input" id="gender_null" name="gendeer" value="남자">
-					<label class="form-check-label" for="gender_null">선택안함</label>
-				</div>
-			</div><br>
-				
+			
 			<div>
 				1줄 소개
 				<textarea class="form-control" rows="5" id="comment"><%= intro %></textarea>
 			</div><br>
-				
-			<div>
-				SNS 링크 
-				<input type="text" class="form-control" id="sns" name="sns">
-			</div>	<br> <br>
-							
 			
-			<button type="button" id="drop" class="btn" onclick="탈퇴하기"> 탈퇴하기</button>
+			<button type="button" id="drop" class="btn" onclick="location.href='member_delete.do'"> 탈퇴하기</button>
 			<br>
 			<input type="submit" value="완료">
-			<a href="../main/mainpage(login_after).jsp" class="btn btn-warning btn-md" >취소</a>
 			
 		</form>
 

@@ -1,6 +1,8 @@
 <%@page import="vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:useBean id="util" class="util.Util"></jsp:useBean>
+
 <%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	MemberVo mv = (MemberVo) session.getAttribute("member");
@@ -44,6 +46,7 @@
 			<th>생성날짜</th>
 			<th>수정날짜</th>
 			<th>관리번호</th>
+			<th>탈퇴<th>
 		</tr>
 		<c:forEach var="mv" items="${ list }">
 			<tr>
@@ -56,6 +59,7 @@
 				<td>${ mv.m_rdate }</td>
 				<td>${ mv.m_mdate }</td>
 				<td>${ mv.m_type }</td>
+				<td><input class="btn btn-danger" 	type="button" 	value="삭제" 	onclick="location.href='member_delete.do'"></td>
 			</tr>
 		</c:forEach>
 	</table>

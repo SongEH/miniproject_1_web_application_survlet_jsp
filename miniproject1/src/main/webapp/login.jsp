@@ -38,7 +38,7 @@
                 <input class="btn btn-success" type="submit" value="로그인" />
                 <a href="findpwd.jsp" class="btn btn-info btn-md" >비밀번호 찾기</a>
                 <a href="joinmember.jsp" class="btn btn-info btn-md" >회원가입</a>
-                <a href="logout.do" class="btn btn-warning btn-md" >로그아웃</a>
+                <a href="JSP/main/mainpage2(login_before).jsp" class="btn btn-warning btn-md" >취소</a>
             </form>
 
         </div>

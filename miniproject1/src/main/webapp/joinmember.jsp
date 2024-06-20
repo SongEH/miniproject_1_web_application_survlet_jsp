@@ -33,6 +33,7 @@
                 <input class="btn btn-success" type="submit" value="회원가입" />
             </form>
             <a href="login.jsp" class="btn btn-info btn-md" >취소</a>
+
         </div>
         <div class="col-sm-4"></div>
     </div>
