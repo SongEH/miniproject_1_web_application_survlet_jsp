@@ -82,9 +82,6 @@ CTRL + C 를 위한 메모
 	else {
 		// 세션에서 정보 가져오기
 		MemberVo mv = (MemberVo) session.getAttribute("member");
-		int m_type = mv.getM_type();
-		if (m_type != 2){
-			response.sendRedirect("../main/mainpage(login_after).jsp");
 		}
 	}
 %>
