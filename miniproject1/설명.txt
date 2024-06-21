@@ -92,6 +92,7 @@ CTRL + C 를 위한 메모
 															servlet 
 	--------------------------------------------------------------------------------------------------------------------
 		파일							경로
+	AdminMemberDeleteAction	/JSP/admin/member_delete.do
 	LoginAction				/login.do
 	LogoutAction			/logout.do
 	MemberJoinAction		/register.do

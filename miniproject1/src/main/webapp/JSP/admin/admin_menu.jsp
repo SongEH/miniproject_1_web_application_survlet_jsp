@@ -4,11 +4,15 @@
     pageEncoding="UTF-8"%>
 <jsp:useBean id="util" class="util.Util"></jsp:useBean>
 <%
-	// 로그인 확인
 	if (!Util.isLogIn(request)) {
-		// 로그인이 되어 있지 않을 경우
 	   	response.sendRedirect("mainpage2(login_before).jsp");
-   	} 
+   	} else {
+		MemberVo mv = (MemberVo) session.getAttribute("member");
+		int m_type = mv.getM_type();
+		if (m_type != 2){
+			response.sendRedirect("../main/mainpage(login_after).jsp");
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>

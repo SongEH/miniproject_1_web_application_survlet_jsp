@@ -9,6 +9,10 @@
 	   	response.sendRedirect("mainpage2(login_before).jsp");
    	} else {
 		MemberVo mv = (MemberVo) session.getAttribute("member");
+		int m_type = mv.getM_type();
+		if (m_type != 2){
+			response.sendRedirect("../main/mainpage(login_after).jsp");
+		}
 	}
 %>
 <!DOCTYPE html>
