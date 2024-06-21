@@ -1,14 +1,14 @@
+<%@page import="util.Util"%>
 <%@page import="vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:useBean id="util" class="util.Util"></jsp:useBean>
-
 <%@ taglib prefix="c" 	uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="util" class="util.Util"></jsp:useBean>
 <%
-	MemberVo mv = (MemberVo) session.getAttribute("member");
-	int m_type = mv.getM_type();
-	if (m_type != 2){
-		response.sendRedirect("../main/mainpage(login_after).jsp");
+	if (!Util.isLogIn(request)) {
+	   	response.sendRedirect("mainpage2(login_before).jsp");
+   	} else {
+		MemberVo mv = (MemberVo) session.getAttribute("member");
 	}
 %>
 <!DOCTYPE html>
@@ -20,20 +20,39 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function del(f){
+		
+		// 삭제 확인
+		if(confirm("정말 삭제하시겠습니까?") == false) return;
+		
+		// 삭제 요청
+		location.href = "member_delete.do?m_idx=" + f.m_idx.value;
+		
+	}
+</script>
 <style type="text/css">
-   #box{
-       width: 1200px;
-       margin: auto; /* 중앙정렬(Horizontal) */
-       margin-top: 20px;
-   }
+   	#box{
+       	width: 1200px;
+       	margin: auto; /* 중앙정렬(Horizontal) */
+       	margin-top: 20px;
+   	}
    
-   .mycolor{
-      background: #333333;
-      color: white;
-   }
+   	.mycolor{
+      	background: #333333;
+   	   	color: white;
+   	}
+   
+   	h3{
+   		text-align: center;
+   		font-size: 30px;
+   		font-weight: bolder;
+   	}
+   
 </style>
 </head>
 <body>
+<h3>회원 정보</h3>
 <div id="box">
 	<table class="table">
 		<tr class="mycolor">
@@ -48,18 +67,22 @@
 			<th>관리번호</th>
 			<th>탈퇴<th>
 		</tr>
+		<tr>
 		<c:forEach var="mv" items="${ list }">
 			<tr>
-				<td>${ mv.m_idx }</td>
-				<td>${ mv.m_name }</td>
-				<td>${ mv.m_id }</td>
-				<td>${ mv.m_pw }</td>
-				<td>${ mv.m_email }</td>
-				<td>${ mv.m_intro }</td>
-				<td>${ mv.m_rdate }</td>
-				<td>${ mv.m_mdate }</td>
-				<td>${ mv.m_type }</td>
-				<td><input class="btn btn-danger" 	type="button" 	value="삭제" 	onclick="location.href='member_delete.do'"></td>
+				<form>
+					<input type="hidden" name="m_idx" value="${ mv.m_idx }">
+					<td>${ mv.m_idx }</td>
+					<td>${ mv.m_name }</td>
+					<td>${ mv.m_id }</td>
+					<td>${ mv.m_pw }</td>
+					<td>${ mv.m_email }</td>
+					<td>${ mv.m_intro }</td>
+					<td>${ mv.m_rdate }</td>
+					<td>${ mv.m_mdate }</td>
+					<td>${ mv.m_type }</td>
+					<td><input class="btn btn-danger" 	type="button" 	value="삭제" 	onclick="del(this.form)"></td>
+				</form>
 			</tr>
 		</c:forEach>
 	</table>

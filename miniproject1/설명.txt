@@ -9,6 +9,8 @@
 		
 		* 실제로 서버를 열어서 운영하는 것이 아니라 암호화했다 라는 의미로 넣은 겁니다.
 		넣고 싶어서 넣은 기능이므로 필요없다고 생각하시면 삭제해도 무방합니다.(비밀번호에 관한 메서드 수정 필요)
+		
+		암호화 해시생성기 사이트 : https://toolsyep.com/ko/haesi-saengseonggi/sha3-512/
 
 	2)	HTML 이스케이프 처리는 XSS공격을 막기 위한 메서드입니다.
 		HTML 코드로 blog를 공격하는 것을 막기 위한 보안처리이므로
@@ -66,25 +68,26 @@
 	jsp파일에 일일히 로그인 확인 메서드를 작성하시는 것보다 그냥 기능을 가져오는 것이 나을 것이라 생각합니다. 
 	
 	
-	CTRL + C 를 위한 메모
+CTRL + C 를 위한 메모
 	
-	// 자바빈을 사용 선언
-	<jsp:useBean id="util" class="util.Util"></jsp:useBean>
-	<%
+<!-- 자바빈을 사용 선언 -->
+<jsp:useBean id="util" class="util.Util"></jsp:useBean>
+<%
 	// 로그인 확인
 	if (!Util.isLogIn(request)) {
-	// 로그인이 되어 있지 않을 경우
-    response.sendRedirect("mainpage2(login_before).jsp");
-    } else {
+		// 로그인이 되어 있지 않을 경우
+	   	response.sendRedirect("mainpage2(login_before).jsp");
+   	} 
+	// 로그인 상태일 경우
+	else {
 		// 세션에서 정보 가져오기
 		MemberVo mv = (MemberVo) session.getAttribute("member");
-		// 관리자일 경우
 		int m_type = mv.getM_type();
-		if (m_type == 2) {
-			response.sendRedirect("../admin/mainpage(admin).jsp"); // 관리자인 경우 관리자 페이지로 리다이렉트
-        }
+		if (m_type != 2){
+			response.sendRedirect("../main/mainpage(login_after).jsp");
+		}
 	}
-    %>
+%>
 	
 	
 	

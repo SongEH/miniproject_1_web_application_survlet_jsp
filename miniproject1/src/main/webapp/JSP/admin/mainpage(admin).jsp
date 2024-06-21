@@ -1,11 +1,23 @@
+<%@page import="util.Util"%>
 <%@page import="vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- 자바빈을 사용 선언 -->
+<jsp:useBean id="util" class="util.Util"></jsp:useBean>
 <%
-	MemberVo mv = (MemberVo) session.getAttribute("member");
-	int m_type = mv.getM_type();
-	if (m_type != 2){
-		response.sendRedirect("../main/mainpage(login_after).jsp");
+	// 로그인 확인
+	if (!Util.isLogIn(request)) {
+		// 로그인이 되어 있지 않을 경우
+	   	response.sendRedirect("mainpage2(login_before).jsp");
+   	} 
+	// 로그인 상태일 경우
+	else {
+		// 세션에서 정보 가져오기
+		MemberVo mv = (MemberVo) session.getAttribute("member");
+		int m_type = mv.getM_type();
+		if (m_type != 2){
+			response.sendRedirect("../main/mainpage(login_after).jsp");
+		}
 	}
 %>
 <!DOCTYPE html>
