@@ -110,5 +110,14 @@ public class MemberVo {
 		this.m_intro = m_intro;
 		this.m_type = m_type;
 	}
+
+	public MemberVo(int m_idx, String m_name, String m_email, String m_intro) {
+		super();
+		this.m_idx = m_idx;
+		this.m_name = m_name;
+		this.m_email = m_email;
+		this.m_intro = m_intro;
+	}
+	
 	
 }

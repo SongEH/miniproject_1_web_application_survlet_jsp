@@ -27,6 +27,8 @@ public class Member_list extends HttpServlet {
 	}
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
 		// 데이터 가져오기
 		List<MemberVo> list = BlogDao.getinstance().selectMemberList();
 		// request binding

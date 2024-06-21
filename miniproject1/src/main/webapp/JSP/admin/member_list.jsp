@@ -63,12 +63,12 @@
 			<th>회원번호</th>
 			<th>닉네임</th>
 			<th>아이디</th>
-			<th>비밀번호</th>
 			<th>이메일</th>
 			<th>소개글</th>
 			<th>생성날짜</th>
 			<th>수정날짜</th>
 			<th>관리번호</th>
+			<th>수정</th>
 			<th>탈퇴<th>
 		</tr>
 		<tr>
@@ -79,12 +79,12 @@
 					<td>${ mv.m_idx }</td>
 					<td>${ mv.m_name }</td>
 					<td>${ mv.m_id }</td>
-					<td>${ mv.m_pw }</td>
 					<td>${ mv.m_email }</td>
 					<td>${ mv.m_intro }</td>
 					<td>${ mv.m_rdate }</td>
 					<td>${ mv.m_mdate }</td>
 					<td>${ mv.m_type }</td>
+					<td><input class="btn btn-success" 	type="button" 	value="수정" 	onclick="regi(this.form)"></td>
 					<td><input class="btn btn-danger" 	type="button" 	value="삭제" 	onclick="del(this.form)"></td>
 				</form>
 			</tr>

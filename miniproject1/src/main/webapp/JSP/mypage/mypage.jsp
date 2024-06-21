@@ -53,6 +53,33 @@ body{
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	function send(f){
+		
+		let m_name 	= f.m_name.value.trim();
+		let m_email = f.m_email.value.trim();
+		let m_intro = f.m_intro.value.trim();
+		
+		if(m_name == ''){
+			alert("닉네임을 입력하세요!");
+			f.m_name.value="";
+			f.m_name.focus();
+			return;
+		}
+		
+		if(m_email == ''){
+			alert("이메일을 입력하세요!");
+			f.m_email.value="";
+			f.m_email.focus();
+			return;
+		}
+		
+		f.method = "POST";
+		f.action = "member_modify.do";
+		f.submit();
+		
+	}
+</script>
 </head>
 
 
@@ -61,28 +88,22 @@ body{
 		<form class="form-signin">
 			<div class="sign">
 				닉네임
-				<input type="text" class="form-control" id="nickname" name="nickname" value="<%= nickname %>">
+				<input type="text" class="form-control" id="m_name" name="m_name" value="<%= nickname %>">
 			</div><br>
 			
 			<div class="sign">
 				이메일
-				<input type="email" class="form-control" id="email" name="nickname" value="<%= email %>">
-			</div><br>
-				
-			<div class="sign">
-				생년월일
-				
+				<input type="email" class="form-control" id="m_email" name="m_email" value="<%= email %>">
 			</div><br>
 			
 			<div>
 				1줄 소개
-				<textarea class="form-control" rows="5" id="comment"><%= intro %></textarea>
+				<textarea class="form-control" rows="5" id="m_intro" name="m_intro"><%= intro %></textarea>
 			</div><br>
 			
 			<button type="button" id="drop" class="btn" onclick="location.href='member_delete.do'"> 탈퇴하기</button>
 			<br>
-			<input type="submit" value="완료">
-			
+			<input type="submit" value="완료" onclick="send(this.form)">
 		</form>
 
 	
