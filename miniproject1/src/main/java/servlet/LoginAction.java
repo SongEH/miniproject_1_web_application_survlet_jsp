@@ -1,5 +1,6 @@
 package servlet;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,10 +40,13 @@ public class LoginAction extends HttpServlet {
             // 로그인 성공 시 세션에 회원 정보를 저장
             HttpSession session = request.getSession();
             session.setAttribute("member", mv);
-            response.sendRedirect("홈페이지 메인");
+            response.sendRedirect("JSP/main/mainpage(login_after).jsp");
         } else {
+        	// 로그인 실패 시 request에 loginError 속성을 설정
+            request.setAttribute("loginError", "로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.");
             // 로그인 실패 시 로그인 페이지로 리다이렉트
-            response.sendRedirect("login.jsp?error=1");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
         }
 	}
 
