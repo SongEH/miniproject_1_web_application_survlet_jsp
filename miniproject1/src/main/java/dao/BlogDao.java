@@ -133,6 +133,50 @@ public class BlogDao {
 		return list;
 	}
 	
+	// 회원 조회 (m_idx)
+	public MemberVo selectMemberByMidx(int m_idx) {
+		Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        MemberVo mv = null;
+        
+        // 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+
+        String sql = "select * from member where m_idx = ?";
+        
+        try {
+        	conn = DBService.getinstance().getConnection();
+        	pstmt = conn.prepareStatement(sql);
+        	pstmt.setInt(1, m_idx);
+        	rs = pstmt.executeQuery();
+
+        	if (rs.next()) {
+        		mv = new MemberVo();
+        		mv.setM_idx(rs.getInt("m_idx"));
+	            mv.setM_name(rs.getString("m_name"));
+	            mv.setM_id(rs.getString("m_id"));
+	            mv.setM_pw(rs.getString("m_pw"));
+	            mv.setM_email(rs.getString("m_email"));
+	            mv.setM_intro(rs.getString("m_intro"));
+	            mv.setM_rdate(rs.getTimestamp("m_rdate").toLocalDateTime().format(dtf));
+	            mv.setM_mdate(rs.getTimestamp("m_mdate").toLocalDateTime().format(dtf));
+	            mv.setM_type(rs.getInt("m_type"));
+        	}
+        } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (pstmt != null) pstmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+         return mv;
+	}
+	
 	// 회원 정보 수정 (비밀번호, 아이디 제외)
 	public int memberUpdate(MemberVo vo) {
 		

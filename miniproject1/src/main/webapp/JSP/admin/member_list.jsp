@@ -34,6 +34,9 @@
 		location.href = "member_delete.do?m_idx=" + f.m_idx.value;
 		
 	}
+	function regi(f){
+		location.href = "member_modify_form.do?m_idx=" + f.m_idx.value;
+	}
 </script>
 <style type="text/css">
    	#box{

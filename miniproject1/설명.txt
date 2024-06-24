@@ -92,17 +92,19 @@ CTRL + C 를 위한 메모
 															servlet 
 	--------------------------------------------------------------------------------------------------------------------
 		파일							경로
-	AdminMemberDeleteAction	/JSP/admin/member_delete.do
-	LoginAction				/login.do
-	LogoutAction			/logout.do
-	Member_list				/JSP/admin/memberlist.do
-	MemberDeleteAction		/JSP/mypage/member_delete.do
-	MemberJoinAction		/register.do
-	MemberModifyAction		/JSP/mypage/member_modify.do
-	PostDeleteAction		/post/delete.do
-	PostInsertAction		/post/insert.do
-	PostInsertFormAction	/post/insert_form.do
-	PostListAction			/post/list.do
+	AdminMemberDeleteAction		/JSP/admin/member_delete.do
+	AdminMemberModifyAction		/JSP/admin/member_modify.do
+	AdminMemberModifyActionForm	/JSP/admin/member_modify_form.do
+	LoginAction					/login.do
+	LogoutAction				/logout.do
+	Member_list					/JSP/admin/memberlist.do
+	MemberDeleteAction			/JSP/mypage/member_delete.do
+	MemberJoinAction			/register.do
+	MemberModifyAction			/JSP/mypage/member_modify.do
+	PostDeleteAction			/post/delete.do
+	PostInsertAction			/post/insert.do
+	PostInsertFormAction		/post/insert_form.do
+	PostListAction				/post/list.do
 	
 	
 	
