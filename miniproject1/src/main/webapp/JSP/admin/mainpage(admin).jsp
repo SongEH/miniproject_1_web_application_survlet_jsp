@@ -76,10 +76,10 @@ margin-left : auto;
 									data-bs-toggle="dropdown">글쓰기</button>
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="navbarDropdown">
-									<li><a class="dropdown-item" href="#">가구</a></li>
-									<li><a class="dropdown-item" href="#">디지털</a></li>
-									<li><a class="dropdown-item" href="#">생활용품</a></li>
-									<li><a class="dropdown-item" href="#">식물</a></li>
+									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">가구</a></li>
+									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">디지털</a></li>
+									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">생활용품</a></li>
+									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">식물</a></li>
 								</ul>
 							</li>
 
