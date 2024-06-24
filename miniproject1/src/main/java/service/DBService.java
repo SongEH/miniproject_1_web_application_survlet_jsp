@@ -31,8 +31,8 @@ public class DBService {
 
 	public Connection getConnection() throws SQLException {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "test1";
-		String pwd = "test1";
+		String user = "test";
+		String pwd = "test";
 
 		Connection conn = DriverManager.getConnection(url, user, pwd);
 
