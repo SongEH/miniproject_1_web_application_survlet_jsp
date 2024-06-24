@@ -1,25 +1,6 @@
-<%@page import="util.Util"%>
-<%@page import="vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!-- 자바빈을 사용 선언 -->
-<jsp:useBean id="util" class="util.Util"></jsp:useBean>
-<%
-	// 로그인 확인
-	if (!Util.isLogIn(request)) {
-		// 로그인이 되어 있지 않을 경우
-	   	response.sendRedirect("mainpage2(login_before).jsp");
-   	} 
-	// 로그인 상태일 경우
-	else {
-		// 세션에서 정보 가져오기
-		MemberVo mv = (MemberVo) session.getAttribute("member");
-		int m_type = mv.getM_type();
-		if (m_type != 2){
-			response.sendRedirect("../main/mainpage(login_after).jsp");
-		}
-	}
-%>
+<%@ page import="vo.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,21 +46,30 @@ margin-left : auto;
 					</button>
 					<div class="collapse navbar-collapse" id="mynavbar">
 						<ul class="navbar-nav ms-auto">
-							<li class="nav-item"><a class="nav-link" id="logout" href="../../logout.do"><img src="$" alt="로그아웃"></a>
+							<li class="nav-item"><a class="nav-link" id="link1" href="login.jsp">로그인</a>
 							</li>
-							<li class="nav-item"><a class="nav-link" id="link1" href="../mypage/mypage.jsp"><img src="$" alt="마이페이지"></a>
+							<li class="nav-item"><a class="nav-link" id="link2" href="register.jsp">회원가입</a>
 							</li>
-							<li class="nav-item"><a class="nav-link" id="admin_menu" href="../admin/admin_menu.jsp"><img src="$" alt="관리페이지"></a>
+							<%	
+								MemberVo mv = (MemberVo)session.getAttribute("member");
+								if(mv != null && mv.getM_type() == 2){
+							%>
+							
+								<li class="nav-item"><a class="nav-link" id="link2" href="adminMemList.jsp">관리자페이지</a>
+							<%		
+								}
+							%>
+							
 							</li>
 							<li class="nav-item">
 								<button type="button" class="btn btn-primary dropdown-toggle"
 									data-bs-toggle="dropdown">글쓰기</button>
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="navbarDropdown">
-									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">가구</a></li>
-									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">디지털</a></li>
-									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">생활용품</a></li>
-									<li><a class="dropdown-item" href="../../post/post_insert_form.jsp">식물</a></li>
+									<li><a class="dropdown-item" href="#">가구</a></li>
+									<li><a class="dropdown-item" href="#">디지털</a></li>
+									<li><a class="dropdown-item" href="#">생활용품</a></li>
+									<li><a class="dropdown-item" href="#">식물</a></li>
 								</ul>
 							</li>
 
