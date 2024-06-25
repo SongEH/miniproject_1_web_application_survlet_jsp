@@ -708,7 +708,7 @@ public class BlogDao {
 		String sql = null;
 		
 		try {
-			sql = "update posts set p_cate = ?, p_title = ?, p_content = ?, p_mdate = sysdate where p_idx = ?";
+			sql = "update post set p_cate = ?, p_title = ?, p_content = ?, p_mdate = sysdate where p_idx = ?";
 			
 			conn = DBService.getinstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -1430,4 +1430,48 @@ public class BlogDao {
         return res;
     }
     
+	// 관리자 게시글 수정
+	public int adminPostUpdate(PostVo vo) {
+		
+		int res = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		String sql = null;
+		
+		try {
+			sql = "update post set p_cate = ?, p_title = ?, p_content = ?, p_type= ?, p_mdate = sysdate where p_idx = ?";
+			
+			conn = DBService.getinstance().getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			// XSS 방어를 위해 이스케이프 처리
+            String p_cate = Util.escapeHtml(vo.getP_cate());
+            String p_title = Util.escapeHtml(vo.getP_title());
+            String p_content = Util.escapeHtml(vo.getP_content());
+			
+			pstmt.setString(1, p_cate);
+            pstmt.setString(2, p_title);
+            pstmt.setString(3, p_content);
+            pstmt.setInt(4, vo.getP_type());
+            pstmt.setInt(5, vo.getP_idx());
+            
+			res = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return res;
+	}
+	
 }

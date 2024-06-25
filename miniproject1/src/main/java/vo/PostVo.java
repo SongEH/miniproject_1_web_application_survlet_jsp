@@ -25,6 +25,14 @@ public class PostVo {
 			this.p_type = p_type;
 		}
 
+		public PostVo(int p_idx, String p_cate, String p_title, String p_content, int p_type) {
+			super();
+			this.p_idx = p_idx;
+			this.p_cate = p_cate;
+			this.p_title = p_title;
+			this.p_content = p_content;
+			this.p_type = p_type;
+		}
 		
 		public int getNo() {
 			return no;
