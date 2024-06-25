@@ -15,14 +15,24 @@
 
 .box{
 	background: blue;
+	width: 100%;
 	height: 400px;
-	margin: auto;
-	text-align: center;
-	padding-top: 200px;
+	display:flex;
+	align-items: center;
+ 	justify-content: center;
+ 	padding: 0px;
+
+	
 }
+#preview{
+	width: 100%; 	
+	height: 100%; 
+    object-fit: cover; 
+}
+
 .sub{
 	background: green;
-	margin-top: 30px;
+	margin-top: 10px;
 
 }
 
@@ -35,9 +45,32 @@
 	margin-top: 10px;
 	width: 100%;
 	resize: none;
+	color: black;
 
 }
+
+.content{
+	margin-top: 10px !important;
+}
 </style>
+
+<script type="text/javascript">
+	function readURL(input){
+		if(input.files && input.files[0]){
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#preview").attr("src", e.target.result);
+// 				document.getElementById('preview').src = e.target.result;
+			};
+		reader.readAsDataURL(input.files[0]);
+		} else{
+			$("#preivew").attr("src","");
+// 			document.getElementById('preview').src="";
+		}
+	}
+	
+	
+</script>
 </head>
 <body>
 	<!-- navbar -->
@@ -59,18 +92,19 @@
 			<form>
 			<div class=" col-sm-8">
 				<div class="box">
-					<p>이미지</p>
+					<img id="preview" src="" alt="image preview">
 				</div>
+				<input type="file" onchange="readURL(this);">
 				
 				
 				<div class="sub mt-5">
 					<input class="form-control form-control-lg" 
 					type="text" placeholder="제목을 입력해주세요.">
 				</div>
-				<div>
-					<textarea class="form-control" id="text" rows="1"
-					oninput='this.style.height="", this.style.height= this.scrollHeight + "px"'>
-					</textarea>
+				<div class="content">
+					<textarea class="form-control" id="text" rows="20" placeholder="내용을 입력해주세요."
+					oninput='this.style.height="", this.style.height= this.scrollHeight + "px"'></textarea>
+					
 				</div>
 				
 			</div>
