@@ -6,13 +6,11 @@ create table member(
 	m_id	varchar2(50) not null,			-- 아이디
 	m_pw	varchar2(50) not null,			-- 비밀번호
 	m_email	varchar2(50) not null unique,	-- 이메일
-	m_intro	varchar2(100) default '안녕하세요',	-- 자기소개 -- '' 추가필요
+	m_intro	varchar2(100) default '안녕하세요',	-- 자기소개 
 	m_rdate	date default sysdate,			-- 등록일자
 	m_mdate	date default sysdate,			-- 수정일자
 	m_type	int default 1 					-- 구분(일반:1, 관리자:2)
 );
-
-SELECT * FROM member WHERE m_id = 'admin' AND m_pw = 'admin';
 
 -- Primary Key
 alter table member add constraint pk_member_m_idx primary key(m_idx);
@@ -23,18 +21,19 @@ alter table member add constraint ck_member_m_type check m_type in (1,2);
 -- Sequence 지정
 create sequence seq_member_m_idx; 
 
--- 더미데이터 혹은 관리자 계정 설정 
-insert into member(m_name, m_id, m_pw, m_email, m_type) values ('test', 'test', 'test', 'test@test.com', 1);
+-- 더미데이터 혹은 관리자 계정 설정 (비밀번호 암호화 적용 때문에 아래처럼 더미데이터 회원가입하기) 
+-- insert into member(m_name, m_id, m_pw, m_email, m_type) values ('테스트계정', 'test', '456b7016a916a4b178dd72b947c152b7', 'test@test.com', 1);
+-- SELECT * FROM member WHERE m_id = 'admin' AND m_pw = 'admin';
 
 -- 테스트
 select * from member
 delete * from member where m_id = 'admin'
 
 
--- 제약조건까지 삭제
+-- 제약조건까지 삭제 (필요시)
 drop table member  CASCADE CONSTRAINTS
 
--- 시퀀스 삭제
+-- 시퀀스 삭제 (필요시)
 drop sequence seq_member_m_idx;
 
 -- ============================================================
@@ -71,10 +70,10 @@ insert into post(p_idx, p_cate, p_title, p_content, p_type, m_idx) values (seq_p
 -- 테스트
 select * from post
 
--- 제약조건까지 삭제
+-- 제약조건까지 삭제 (필요시)
 drop table post  CASCADE CONSTRAINTS
 
--- 시퀀스 삭제
+-- 시퀀스 삭제  (필요시)
 drop sequence seq_post_p_idx;
 
 -- ============================================================
@@ -110,7 +109,7 @@ insert into post_like values (seq_post_like_l_idx,rdate,mdate,type,m_idx,p_idx);
 insert into post_like (l_idx, l_type, m_idx, p_idx) values (seq_post_like_l_idx.nextval, 1, 1, 3) ;
 
 
-================================================================
+-- ================================================================
 -- 댓글 테이블
 create table comments(
 	c_idx		int not null,			-- 댓글번호
@@ -128,6 +127,22 @@ alter table comments add constraint fk_comments_p_idx foreign key (p_idx) refere
 -- Sequence 지정
 create sequence seq_comments_c_idx;
 
-insert into comments(c_idx, c_content, p_idx, m_idx) values (seq_comments_c_idx.nextval,'아아아',1,99);
+-- 테스트 
+insert into comments(c_idx, c_content, p_idx, m_idx) values (seq_comments_c_idx.nextval,'테스트',1,1);
 
 select * from comments
+
+
+-- 06/25 추가 - 한지혜
+-- post_view 생성 
+-- 회원 id를 기준으로 회원 이름 포함한 컬럼을 가져온다. 
+-- post 테이블에 회원 이름 컬럼명이 없어서 post와 member 테이블 조인
+  
+create or replace view post_list_view
+as
+	SELECT  p.P_IDX, p.P_CATE, p.P_TITLE, p.P_CONTENT, p.P_RDATE, p.P_MDATE, p.P_TYPE, p.P_HIT, p.M_IDX, m.m_name
+	from post p, member m
+	where p.m_idx = m.m_idx;
+
+-- 작성일 기준 내림차순 (최신순) 
+select * from post_list_view order by p_rdate desc

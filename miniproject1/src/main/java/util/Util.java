@@ -1,5 +1,9 @@
 package util;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import vo.MemberVo;
+
 public class Util {
 	
 	// 입력된 문자를 MD5형식의 해시 코드로 변환, 보안성 높이는 용도
@@ -19,6 +23,7 @@ public class Util {
         return null;
     }
 	
+	
     // HTML 이스케이프 처리
     public static String escapeHtml(String input) {
         if (input == null) return null;
@@ -30,5 +35,22 @@ public class Util {
                     .replaceAll("'", "&#x27;")
                     .replaceAll("/", "&#x2F;");
     }
-
+    
+    // 로그인 확인 메서드
+    public static boolean isLogIn(HttpServletRequest request) {
+    	// 새 세션을 만들지 않고 이미 있는 세션을 가져옴
+        HttpSession session = request.getSession(false);
+        return (session != null && session.getAttribute("member") != null);
+    }
+    
+    // 관리자 확인 메서드
+    public static boolean isAdmin(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            MemberVo mv = (MemberVo) session.getAttribute("member");
+            return (mv != null && mv.getM_type() == 2);
+        }
+        return false;
+    }
+    
 }

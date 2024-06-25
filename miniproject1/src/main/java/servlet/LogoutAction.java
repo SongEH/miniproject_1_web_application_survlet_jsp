@@ -35,7 +35,7 @@ public class LogoutAction extends HttpServlet {
         response.addCookie(cookie);
 
         // 로그아웃 후 로그인 페이지 또는 홈 페이지로 리다이렉트
-        response.sendRedirect("");
+        response.sendRedirect("JSP/main/mainpage2(login_before).jsp");
 	}
 
 }
