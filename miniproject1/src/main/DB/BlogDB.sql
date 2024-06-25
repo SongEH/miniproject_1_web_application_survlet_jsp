@@ -21,8 +21,8 @@ alter table member add constraint ck_member_m_type check m_type in (1,2);
 -- Sequence 지정
 create sequence seq_member_m_idx; 
 
--- 더미데이터 혹은 관리자 계정 설정 (비밀번호 암호화 적용 때문에 아래처럼 더미데이터 회원가입하기) 
--- insert into member(m_name, m_id, m_pw, m_email, m_type) values ('테스트계정', 'test', '456b7016a916a4b178dd72b947c152b7', 'test@test.com', 1);
+-- 더미데이터 혹은 관리자 계정 설정 (비밀번호 암호화 적용 때문에 아래처럼 말고 직접 회원가입하기) 
+-- insert into member(m_name, m_id, m_pw, m_email, m_type) values ('테스트계정', 'test', 'test', 'test@test.com', 1);
 -- SELECT * FROM member WHERE m_id = 'admin' AND m_pw = 'admin';
 
 -- 테스트
