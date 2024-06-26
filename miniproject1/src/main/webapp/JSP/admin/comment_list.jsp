@@ -31,11 +31,11 @@
 		if(confirm("정말 삭제하시겠습니까?") == false) return;
 		
 		// 삭제 요청
-		location.href = "member_delete.do?m_idx=" + f.m_idx.value;
+		location.href = "comment_delete.do?c_idx=" + f.c_idx.value;
 		
 	}
 	function regi(f){
-		location.href = "member_modify_form.do?m_idx=" + f.m_idx.value;
+		location.href = "comment_modify_form.do?c_idx=" + f.c_idx.value;
 	}
 </script>
 <style type="text/css">
@@ -63,30 +63,26 @@
 <div id="box">
 	<table class="table">
 		<tr class="mycolor">
+			<th>댓글번호</th>
+			<th>내용</th>
+			<th>등록일자</th>
+			<th>수정일자</th>
+			<th>게시판번호</th>
 			<th>회원번호</th>
-			<th>닉네임</th>
-			<th>아이디</th>
-			<th>이메일</th>
-			<th>소개글</th>
-			<th>생성날짜</th>
-			<th>수정날짜</th>
-			<th>관리번호</th>
 			<th>수정</th>
-			<th>탈퇴<th>
+			<th>삭제</th>
 		</tr>
 		<tr>
-		<c:forEach var="mv" items="${ list }">
+		<c:forEach var="cv" items="${ list }">
 			<tr>
 				<form>
-					<input type="hidden" name="m_idx" value="${ mv.m_idx }">
-					<td>${ mv.m_idx }</td>
-					<td>${ mv.m_name }</td>
-					<td>${ mv.m_id }</td>
-					<td>${ mv.m_email }</td>
-					<td>${ mv.m_intro }</td>
-					<td>${ mv.m_rdate }</td>
-					<td>${ mv.m_mdate }</td>
-					<td>${ mv.m_type }</td>
+					<input type="hidden" name="c_idx" value="${ cv.c_idx }">
+					<td>${ cv.c_idx }</td>
+					<td>${ cv.c_content }</td>
+					<td>${ cv.c_rdate }</td>
+					<td>${ cv.c_mdate }</td>
+					<td>${ cv.p_idx }</td>
+					<td>${ cv.m_idx }</td>
 					<td><input class="btn btn-success" 	type="button" 	value="수정" 	onclick="regi(this.form)"></td>
 					<td><input class="btn btn-danger" 	type="button" 	value="삭제" 	onclick="del(this.form)"></td>
 				</form>

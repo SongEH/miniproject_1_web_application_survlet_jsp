@@ -57,4 +57,14 @@ public class CommentVo {
 		this.m_idx = m_idx;
 	}
 	
+	public CommentVo() {
+		super();
+	}
+
+	public CommentVo(int c_idx, String c_content) {
+		super();
+		this.c_idx = c_idx;
+		this.c_content = c_content;
+	}
+
 }

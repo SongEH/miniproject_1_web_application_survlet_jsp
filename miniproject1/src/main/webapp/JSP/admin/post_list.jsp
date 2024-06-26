@@ -6,7 +6,7 @@
 <jsp:useBean id="util" class="util.Util"></jsp:useBean>
 <%
 	if (!Util.isLogIn(request)) {
-	   	response.sendRedirect("mainpage2(login_before).jsp");
+	   	response.sendRedirect("mainpage(admin).jsp");
    	} else {
 		MemberVo mv = (MemberVo) session.getAttribute("member");
 		int m_type = mv.getM_type();

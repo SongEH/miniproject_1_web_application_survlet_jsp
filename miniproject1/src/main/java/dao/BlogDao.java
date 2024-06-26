@@ -817,6 +817,50 @@ public class BlogDao {
 	    return list;
 	}
 	
+	// 댓글 조회
+	public CommentVo selectCommentByCidx(int c_idx) {
+
+		Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        CommentVo cv = null;
+
+	    String sql = "select * from comments where c_idx = ?";
+	    
+		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+
+	    try {
+	        conn = DBService.getInstance().getConnection();
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, c_idx);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            cv = new CommentVo();
+	            cv.setC_idx(rs.getInt("c_idx"));
+	            cv.setC_content(rs.getString("c_content"));
+	            cv.setC_rdate(rs.getTimestamp("c_rdate").toLocalDateTime().format(dtf));
+	            cv.setC_mdate(rs.getTimestamp("c_mdate").toLocalDateTime().format(dtf));
+	            cv.setP_idx(rs.getInt("p_idx"));
+	            cv.setM_idx(rs.getInt("m_idx"));
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return cv;
+	}
+	
 	// 게시글에 달린 댓글 목록 조회
 	public List<CommentVo> selectCommentByPidx(int p_idx) {
 

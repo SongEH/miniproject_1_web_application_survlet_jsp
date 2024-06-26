@@ -9,13 +9,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vo.CommentVo;
+import vo.MemberVo;
 import vo.PostVo;
 
 /**
  * Servlet implementation class DeptListAction
  */
-@WebServlet("/JSP/admin/post_modify_form.do")
-public class AdminPostModifyActionForm extends HttpServlet {
+@WebServlet("/JSP/admin/comment_modify_form.do")
+public class AdminCommentModifyActionForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -24,17 +26,17 @@ public class AdminPostModifyActionForm extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// 수정할 게시글의 idx를 받는다.
-		int idx = Integer.parseInt(request.getParameter("p_idx"));
+		// 수정할 댓글의 idx를 받는다.
+		int idx = Integer.parseInt(request.getParameter("c_idx"));
 		
-		// 게시글 정보 얻어오기
-		PostVo pv = BlogDao.getInstance().selectPostByPidx(idx);
+		// 댓글 정보 얻어오기
+		CommentVo cv = BlogDao.getInstance().selectCommentByCidx(idx);
 		
 		// request binding
-		request.setAttribute("pv", pv);
+		request.setAttribute("cv", cv);
 		
 		// Dispather 형식으로 호출
-		String forward_page = "admin_post_page.jsp";
+		String forward_page = "admin_comment_page.jsp";
 		RequestDispatcher disp = request.getRequestDispatcher(forward_page);
 		disp.forward(request, response);
 
