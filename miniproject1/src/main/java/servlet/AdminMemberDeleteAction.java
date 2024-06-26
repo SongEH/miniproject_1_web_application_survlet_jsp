@@ -2,7 +2,7 @@ package servlet;
 
 import java.io.IOException;
 
-import dao.BlogDao;
+import dao.MemberDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,7 +26,7 @@ public class AdminMemberDeleteAction extends HttpServlet {
 		// 삭제할 idx 수신
 		int m_idx = Integer.parseInt(request.getParameter("m_idx"));
 		
-		int res = BlogDao.getInstance().memberDelete(m_idx);
+		int res = MemberDao.getInstance().memberDelete(m_idx);
 		
 		response.sendRedirect("memberlist.do");
 

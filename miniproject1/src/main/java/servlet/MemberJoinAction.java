@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 
 import dao.BlogDao;
+import dao.MemberDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,7 +34,7 @@ public class MemberJoinAction extends HttpServlet {
 		int m_type = 1;
 		
 		// DB에서 회원 정보를 등록
-        BlogDao dao = BlogDao.getInstance();
+		MemberDao dao = MemberDao.getInstance();
         MemberVo mv = new MemberVo(m_name, m_id, m_pw, m_email, m_intro, m_type);
         dao.memberInsert(mv);
 		

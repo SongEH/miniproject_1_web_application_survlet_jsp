@@ -3,7 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.util.List;
 
-import dao.BlogDao;
+import dao.MemberDao;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,24 +13,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import vo.MemberVo;
 
 /**
- * Servlet implementation class member_list
+ * Servlet implementation class DeptListAction
  */
 @WebServlet("/JSP/admin/memberlist.do")
 public class AdminMemberList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
-	}
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
 		// 데이터 가져오기
-		List<MemberVo> list = BlogDao.getInstance().selectMemberList();
+		List<MemberVo> list = MemberDao.getInstance().selectMemberList();
 		// request binding
 		request.setAttribute("list", list);
 		
@@ -38,5 +35,7 @@ public class AdminMemberList extends HttpServlet {
 		String forward_page = "member_list.jsp";
 		RequestDispatcher disp = request.getRequestDispatcher(forward_page);
 		disp.forward(request, response);
+
 	}
+
 }

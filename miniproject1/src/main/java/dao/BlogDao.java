@@ -42,7 +42,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into members values(seq_members.nextval,?,?,?,?,?,sysdate,sysdate,?)";	
+		String sql = "insert into member values(seq_member.nextval,?,?,?,?,?,sysdate,sysdate,?)";	
 
 		try {
 
@@ -87,7 +87,7 @@ public class BlogDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "select * from members";
+		String sql = "select * from member";
 		
 		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
@@ -143,7 +143,7 @@ public class BlogDao {
         // 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
-        String sql = "select * from members where m_idx = ?";
+        String sql = "select * from member where m_idx = ?";
         
         try {
         	conn = DBService.getInstance().getConnection();
@@ -187,7 +187,7 @@ public class BlogDao {
 		String sql = null;
 		
 		try {
-			sql = "update members set m_name = ?, m_email = ?, m_intro = ?, m_mdate = sysdate where m_idx = ?";
+			sql = "update member set m_name = ?, m_email = ?, m_intro = ?, m_mdate = sysdate where m_idx = ?";
 			
 			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -227,7 +227,7 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "delete from members where m_idx = ?";
+		String sql = "delete from member where m_idx = ?";
 
 		try {
 			conn = DBService.getInstance().getConnection();
@@ -262,7 +262,7 @@ public class BlogDao {
 		MemberVo mv = null;
 		
 		try {
-			String sql = "select * from members where m_id = ? and m_pw = ?";
+			String sql = "select * from member where m_id = ? and m_pw = ?";
 			
 			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -325,7 +325,7 @@ public class BlogDao {
 		ResultSet rs = null;
 
         try {
-            String sql = "select m_id from members where m_email=?";
+            String sql = "select m_id from member where m_email=?";
             
             conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
@@ -365,7 +365,7 @@ public class BlogDao {
 		// 새 비밀번호랑 확인용이 같다면
         if (newPassword.equals(newPasswordr)) {
             try {
-                String sql = "update members set m_pw = ?  where m_pw = ? and m_idx = ? ";
+                String sql = "update member set m_pw = ?  where m_pw = ? and m_idx = ? ";
                 
                 conn = DBService.getInstance().getConnection();
                 pstmt = conn.prepareStatement(sql);

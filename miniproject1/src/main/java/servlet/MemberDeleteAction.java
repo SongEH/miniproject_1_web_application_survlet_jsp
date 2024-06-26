@@ -1,5 +1,8 @@
 package servlet;
 
+import java.io.IOException;
+
+import dao.MemberDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,10 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vo.MemberVo;
-
-import java.io.IOException;
-
-import dao.BlogDao;
 
 /**
  * Servlet implementation class MemberDeleteAction
@@ -30,7 +29,7 @@ public class MemberDeleteAction extends HttpServlet {
 		MemberVo mv = (MemberVo) session.getAttribute("member");
 		int m_idx = mv.getM_idx();
 		
-		BlogDao.getInstance().memberDelete(m_idx);
+		MemberDao.getInstance().memberDelete(m_idx);
 		
 		response.sendRedirect("../main/mainpage2(login_before).jsp");
 	}
