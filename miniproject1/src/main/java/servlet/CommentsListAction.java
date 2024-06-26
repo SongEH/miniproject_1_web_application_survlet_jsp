@@ -16,7 +16,7 @@ import vo.CommentVo;
  * Servlet implementation class PostAction
  */
 
-@WebServlet("/comments/list.do")
+@WebServlet("/comments/c_list.do")
 public class CommentsListAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,11 +25,11 @@ public class CommentsListAction extends HttpServlet {
 		
 	        int p_idx = Integer.parseInt(request.getParameter("p_idx"));
 	        
-	        System.out.println(p_idx);
 	        
-	        List<CommentVo> c_list = PostDao.getInstance().selectCommentByPidx(p_idx);
+	        
+	        //List<CommentVo> c_list = PostDao.getInstance().selectCommentByPidx(p_idx);
 			
-			request.setAttribute("c_list", c_list);
+			// request.setAttribute("c_list", c_list);
 
 			//Dispatcher형식으로 호출
 			String forward_page = "comments_list.jsp";

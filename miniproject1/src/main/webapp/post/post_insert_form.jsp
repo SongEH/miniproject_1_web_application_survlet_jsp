@@ -34,41 +34,34 @@ th {
 <script type="text/javascript">
 	function send(f) {
 
-		//입력값을 검증해야 한다 , 공백제거 trim()
+		//입력값을 검증해야 한다, 공백제거 trim()
 		let p_title = f.p_title.value.trim();
 		let p_content = f.p_content.value.trim();
-		let p_type = f.p_type.value.trim();
 		let p_cate = f.p_cate.value.trim();
-		alert(p_content);
+		let p_type = f.p_type.value;
 		
 		if (p_title == '') {
-			alert("제목를 입력하세요");
+			alert("제목을 입력하세요.");
 			f.p_title.value = ""; //지우기
 			f.p_title.focus();
 			return;
 		}
 
 		if (p_content == '') {
-			alert("내용를 입력하세요");
+			alert("내용을 입력하세요.");
 			f.p_content.value = ""; //지우기
 			f.p_content.focus();
 			return;
 		}
 
 		if(p_cate==""){
-			alert("내용를 입력하세요");
+			alert("카테고리를 선택하세요.");
 			f.p_cate.value = ""; //지우기
 			f.p_cate.focus();
 			return;
 		}
-		if (p_type == '') {
-			alert("구분을 선택하시오");
-			f.p_type.value = ""; //지우기
-			f.p_type.focus();
-			return;
-		}
 
-		//		f.method = "POST";
+		// f.method = "POST";
 		f.action = "insert.do"; //전송대상(VisitInsertAction)
 		f.submit(); //전송
 	}
@@ -105,19 +98,37 @@ th {
 						</tr>
 						<tr>
 							<th>카테고리</th>
-							<td><input class="form-control" name="p_cate" ></td>
+							<td>
+								<select class="form-control" id="category" name="p_cate" required>
+	            					<option value="">카테고리 선택</option>
+						            <option value="테이블">테이블</option>
+						            <option value="침대">침대</option>
+						            <option value="수납장">수납장</option>
+					        	</select><br><br>
+							
+							
+							</td>
 						</tr>
 						<tr>
-							<th>일반/공지</th>
-							<td><input class="form-control" type="text" name="p_type"></td>
+							<th>구분</th>
+							<td> 
+							  <input type="radio" id="p_type_1" name="p_type" value="1" checked>
+						      <label for="normal">일반</label><br>
+						      <input type="radio" id="p_type_2" name="p_type" value="2">
+						      <label for="notice">공지</label><br><br>
+							</td>
 						</tr>
+						
+						
 						<tr>
 							<td colspan="2" align="center">
 							<input
 								class="btn btn-success" type="button" value="목록보기"
-								onclick="location.href='list.do'"> <input
+								onclick="location.href='list.do'"> 
+								<input
 								class="btn btn-primary" type="button" value="글올리기"
-								onclick="send(this.form);"></td>
+								onclick="send(this.form);">
+							</td>
 						</tr>
 					</table>
 				</div>

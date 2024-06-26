@@ -1,4 +1,6 @@
 
+create user test1 identified by test1
+
 -- 회원 테이블
 create table member(
 	m_idx	int not null,					-- 회원번호
@@ -16,7 +18,7 @@ create table member(
 alter table member add constraint pk_member_m_idx primary key(m_idx);
 
 -- check
-alter table member add constraint ck_member_m_type check m_type in (1,2); 
+alter table member add constraint ck_member_m_type check (m_type in (1,2)); 
 
 -- Sequence 지정
 create sequence seq_member_m_idx; 
@@ -27,7 +29,7 @@ create sequence seq_member_m_idx;
 
 -- 테스트
 select * from member
-delete * from member where m_id = 'admin'
+-- delete * from member where m_id = 'admin'
 
 
 -- 제약조건까지 삭제 (필요시)
@@ -89,7 +91,7 @@ create table post_like(
 )
 
 -- Primary Key
-alter table post_like add constraint pk_post_like_p_idx primary key(p_idx);
+alter table post_like add constraint pk_post_like_p_idx primary key(l_idx);
 
 -- Foreign Key
 alter table post_like add constraint fk_post_like_m_idx foreign key (m_idx) references member(m_idx) on delete cascade;
@@ -99,15 +101,16 @@ alter table post_like add constraint fk_post_like_p_idx foreign key (p_idx) refe
 alter table post_like add constraint ck_post_like_l_type check (l_type in (1,2));
 
 -- 좋아요 중복 방지
-alter table post_like add constraint unique_post_like unique (p_idx, m_idx);
+alter table post_like add constraint unique_post_like unique (p_idx, l_idx);
 
 -- Sequence 지정
 create sequence seq_post_like_l_idx;
 
 -- 더미데이터 혹은 공지사항 설정
-insert into post_like values (seq_post_like_l_idx,rdate,mdate,type,m_idx,p_idx);
-insert into post_like (l_idx, l_type, m_idx, p_idx) values (seq_post_like_l_idx.nextval, 1, 1, 3) ;
+-- insert into post_like values (seq_post_like_l_idx,rdate,mdate,type,m_idx,p_idx);
+-- insert into post_like (l_idx, l_type, m_idx, p_idx) values (seq_post_like_l_idx.nextval, 1, 1, 3) ;
 
+select * from post_like
 
 -- ================================================================
 -- 댓글 테이블
@@ -143,6 +146,8 @@ as
 	SELECT  p.P_IDX, p.P_CATE, p.P_TITLE, p.P_CONTENT, p.P_RDATE, p.P_MDATE, p.P_TYPE, p.P_HIT, p.M_IDX, m.m_name
 	from post p, member m
 	where p.m_idx = m.m_idx;
+
+select * from post_list_view
 
 -- 작성일 기준 내림차순 (최신순) 
 select * from post_list_view order by p_rdate desc

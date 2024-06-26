@@ -22,7 +22,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 function del(f){
-	
 	if(confirm("정말 삭제하시겠습니까?")==false){
 		return;
 	}
@@ -31,30 +30,29 @@ function del(f){
 }
 
 function toggleLike(f) {
-	f.action = "like.do"; 
-	f.submit(); //전송
+
+	// like.do로 이동해서 좋아요 +1 증가, 또 한번 눌렀을 땐 좋아요 -1
+    $.ajax({
+        url: 'like.do',
+        data: { "p_idx": f.p_idx.value },
+        success: function(res_data) {
+            $('#scrap-btn-' + f.p_idx.value).text(res_data.likes);
+        }
+    }); 
 }
 
 
 function toggleScrap(f) {
-	f.action = "scrap.do"; 
-	f.submit(); //전송
-	
-	// a.jax 아직 미적용
-    /*$.ajax({
-        url: 'scrap',
-        type: 'POST',
-        data: { id: f.p_idx.value },
-        success: function(response) {
-            $('#scrap-btn-' + f.p_idx.value).text(response.scraps);
+    $.ajax({
+        url: 'scrap.do',
+        data: { "p_idx": f.p_idx.value },
+        success: function(res_data) {
+            $('#scrap-btn-' + f.p_idx.value).text(res_data.scraps);
         }
-    }); */
+    }); 
+	
 } 
 
-function comments(f){
-	f.action = "comments/list.do";
-	f.submit();
-}
 
 
 </script>
@@ -94,23 +92,40 @@ function comments(f){
 					</div>
 					
 					<!-- 상세보기로 넘어가는 버튼 -->
-					<div><button onclick="comments(this.form)">상세보기(임시로만든버튼)</button></div>
-					
+					<div>
+					<input class="btn btn-info" type="button" value="상세보기(임시버튼)"  
+	               onclick="location.href='../comments/c_list.do?p_idx=${vo.p_idx}'">
+	               </div>
 					<!-- 같은 속성을 주기 위해 class타입으로 정함 -->
 					<div class="panel-body">
+						<div class="mycommon p_cate">${vo.p_cate}</div>
+						
 						<div class="mycommon p_content">${vo.p_content}</div>
+						
 						<!-- 일자에서 초까지 필요없으면 substring 사용 -->
 						<div class="mycommon p_rdate">작성일자:
 							${fn:substring(vo.p_rdate,0,16)}</div>
-						<div class="mycommon p_type">
-							일반/공지:${vo.p_type}</div>
-						<div class="mycommon like">
-							좋아요 수 : ${vo.getLike()}</div>
-						<div class="mycommon scrap">
-							스크랩 수 : ${vo.getScrap()}</div>
 						
-						<button id="like-btn-${vo.p_idx}" onclick="toggleLike(this.form)">${vo.getLike()}</button>
-            			<button id="scrap-btn-${vo.p_idx}" onclick="toggleScrap(this.form)">${vo.getScrap()}</button>
+						<div class="mycommon p_type">
+							<%-- 일반/공지:${vo.p_type} --%>
+							
+						<!-- p_type을 보고 1이면 일반, 2라면 공지라고 텍스트로 표시 -->
+					        <c:choose>
+					            <c:when test="${vo.p_type eq '1'}">
+					                구분: 일반
+					            </c:when>
+					            <c:when test="${vo.p_type eq '2'}">
+					                구분: 공지
+					            </c:when>
+					            <c:otherwise>
+					                구분: 알 수 없음
+					            </c:otherwise>
+					        </c:choose>
+						</div>
+						
+						<button id="like-btn-${vo.p_idx}" onclick="toggleLike(this.form)">좋아요 : ${vo.getLike()}</button>
+            			<button id="scrap-btn-${vo.p_idx}" onclick="toggleScrap(this.form)">스크랩 : ${vo.getScrap()}</button>
+						
 						
 						<input class="btn btn-success" type="button" value="수정"
 						onclick="modify_form(this.form);">

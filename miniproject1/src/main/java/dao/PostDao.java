@@ -120,8 +120,8 @@ public class PostDao {
 
 			//3.pstmt parameter index 채우기
 			pstmt.setString(1, vo.getP_title());
-			pstmt.setString(2, vo.getP_content());
-			pstmt.setString(3, vo.getP_cate());
+			pstmt.setString(2, vo.getP_cate());
+			pstmt.setString(3, vo.getP_content());
 			pstmt.setInt(4, vo.getP_type());
 			pstmt.setInt(5, vo.getM_idx());
 			

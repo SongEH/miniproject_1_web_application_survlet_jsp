@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import vo.MemberVo;
 
 /**
  * Servlet implementation class PostAction
@@ -22,20 +24,23 @@ public class PostLikeAction extends HttpServlet {
 			throws ServletException, IOException {
 		
 	        int p_idx = Integer.parseInt(request.getParameter("p_idx"));
-	        //int m_idx = Integer.parseInt(request.getParameter("m_idx")); // 회원 ID 넣기
-	        int m_idx = 1;
+	        
+	        // 현재 로그인된 세션에서 회원 id가져옴 
+	        HttpSession session = (HttpSession) request.getSession();
+	        MemberVo member = (MemberVo) session.getAttribute("member");
+	        int m_idx = member.getM_idx(); 
 
 	        PostDao.getInstance().isPostLikeOrScrap(m_idx, p_idx, 1);
 	        
             // 업데이트된 좋아요 수 반환
             int cnt = PostDao.getInstance().getPostLikeCount(p_idx);
            
-            response.setContentType("application/json");
+            response.setContentType("application/json; charset=utf-8;");
             PrintWriter out = response.getWriter();
-            out.print("{\"likes\":" + cnt + "}");
-            out.flush();
             
-	      
+            String json = String.format("{\"likes\":%d}", cnt);
+    		response.getWriter().print(json);
+  
 	    }
 
 }
