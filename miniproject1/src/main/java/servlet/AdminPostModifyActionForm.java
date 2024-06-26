@@ -29,7 +29,7 @@ public class AdminPostModifyActionForm extends HttpServlet {
 		int idx = Integer.parseInt(request.getParameter("p_idx"));
 		
 		// 회원 정보 얻어오기
-		PostVo pv = BlogDao.getinstance().selectPostByPidx(idx);
+		PostVo pv = BlogDao.getInstance().selectPostByPidx(idx);
 		
 		// request binding
 		request.setAttribute("pv", pv);

@@ -23,7 +23,7 @@ public class BlogDao {
 	// 싱글톤화
 	static BlogDao single = null;
 	
-	public static BlogDao getinstance() {
+	public static BlogDao getInstance() {
 
 		if (single == null)
 			single = new BlogDao();
@@ -42,11 +42,11 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "insert into member values(seq_member_m_idx.nextval,?,?,?,?,?,sysdate,sysdate,?)";	
+		String sql = "insert into members values(seq_members.nextval,?,?,?,?,?,sysdate,sysdate,?)";	
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -87,14 +87,14 @@ public class BlogDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql = "select * from member";
+		String sql = "select * from members";
 		
 		// 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -143,10 +143,10 @@ public class BlogDao {
         // 스레드 안정성을 위해 SimpleDateFormate대신 DateTimeFormatter사용
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
-        String sql = "select * from member where m_idx = ?";
+        String sql = "select * from members where m_idx = ?";
         
         try {
-        	conn = DBService.getinstance().getConnection();
+        	conn = DBService.getInstance().getConnection();
         	pstmt = conn.prepareStatement(sql);
         	pstmt.setInt(1, m_idx);
         	rs = pstmt.executeQuery();
@@ -187,9 +187,9 @@ public class BlogDao {
 		String sql = null;
 		
 		try {
-			sql = "update member set m_name = ?, m_email = ?, m_intro = ?, m_mdate = sysdate where m_idx = ?";
+			sql = "update members set m_name = ?, m_email = ?, m_intro = ?, m_mdate = sysdate where m_idx = ?";
 			
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -227,10 +227,10 @@ public class BlogDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String sql = "delete from member where m_idx = ?";
+		String sql = "delete from members where m_idx = ?";
 
 		try {
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1,m_idx);
@@ -262,9 +262,9 @@ public class BlogDao {
 		MemberVo mv = null;
 		
 		try {
-			String sql = "select * from member where m_id = ? and m_pw = ?";
+			String sql = "select * from members where m_id = ? and m_pw = ?";
 			
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, m_id);
@@ -325,9 +325,9 @@ public class BlogDao {
 		ResultSet rs = null;
 
         try {
-            String sql = "select m_id from member where m_email=?";
+            String sql = "select m_id from members where m_email=?";
             
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             
             pstmt.setString(1, m_email);
@@ -365,9 +365,9 @@ public class BlogDao {
 		// 새 비밀번호랑 확인용이 같다면
         if (newPassword.equals(newPasswordr)) {
             try {
-                String sql = "update member set m_pw = ?  where m_pw = ? and m_idx = ? ";
+                String sql = "update members set m_pw = ?  where m_pw = ? and m_idx = ? ";
                 
-                conn = DBService.getinstance().getConnection();
+                conn = DBService.getInstance().getConnection();
                 pstmt = conn.prepareStatement(sql);
                 
                 pstmt.setString(1, Util.MD5(newPassword));
@@ -415,7 +415,7 @@ public class BlogDao {
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -475,7 +475,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
         
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, start);
             pstmt.setInt(2, end);
@@ -525,7 +525,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
         
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, p_idx);
             rs = pstmt.executeQuery();
@@ -572,7 +572,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, m_idx);
             rs = pstmt.executeQuery();
@@ -621,7 +621,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, keywordF);
 
@@ -666,7 +666,7 @@ public class BlogDao {
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -710,7 +710,7 @@ public class BlogDao {
 		try {
 			sql = "update post set p_cate = ?, p_title = ?, p_content = ?, p_mdate = sysdate where p_idx = ?";
 			
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -751,7 +751,7 @@ public class BlogDao {
 		String sql = "delete from post where p_idx = ?";
 
 		try {
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1,p_idx);
@@ -786,7 +786,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 	    try {
-	        conn = DBService.getinstance().getConnection();
+	        conn = DBService.getInstance().getConnection();
 	        pstmt = conn.prepareStatement(sql);
 	        rs = pstmt.executeQuery();
 
@@ -831,7 +831,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 	    try {
-	        conn = DBService.getinstance().getConnection();
+	        conn = DBService.getInstance().getConnection();
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, p_idx);
 	        rs = pstmt.executeQuery();
@@ -877,7 +877,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
 
 	    try {
-	        conn = DBService.getinstance().getConnection();
+	        conn = DBService.getInstance().getConnection();
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, m_idx);
 	        rs = pstmt.executeQuery();
@@ -923,7 +923,7 @@ public class BlogDao {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
         
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             
             pstmt.setString(1, keywordF);
@@ -968,7 +968,7 @@ public class BlogDao {
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -1007,7 +1007,7 @@ public class BlogDao {
 		try {
 			sql = "update comments set c_content = ?, c_mdate = sysdate where c_idx = ?";
 			
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -1044,7 +1044,7 @@ public class BlogDao {
 		String sql = "delete from comments where c_idx = ?";
 
 		try {
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1,c_idx);
@@ -1076,7 +1076,7 @@ public class BlogDao {
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, vo.getL_type());
@@ -1110,7 +1110,7 @@ public class BlogDao {
 		String sql = "delete from post_like where l_idx = ?";
 
 		try {
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1,l_idx);
@@ -1143,7 +1143,7 @@ public class BlogDao {
 	    String sql = "select * from post_like where m_idx = ? AND p_idx = ? AND l_type = ?";
 
 	    try {
-	        conn = DBService.getinstance().getConnection();
+	        conn = DBService.getInstance().getConnection();
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, m_idx);
 	        pstmt.setInt(2, p_idx);
@@ -1180,7 +1180,7 @@ public class BlogDao {
 	    List<PostVo> postList = new ArrayList<>();
 	    
 	    try {
-	        conn = DBService.getinstance().getConnection();
+	        conn = DBService.getInstance().getConnection();
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, m_idx);
 	        pstmt.setInt(2, l_type);
@@ -1230,7 +1230,7 @@ public class BlogDao {
         String sql = "select count(*) from post_like where p_idx = ? and l_type = 2";
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, p_idx);
             rs = pstmt.executeQuery();
@@ -1264,7 +1264,7 @@ public class BlogDao {
         String sql = "select count(*) from post_like where p_idx = ? and l_type = 1";
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, p_idx);
             rs = pstmt.executeQuery();
@@ -1298,7 +1298,7 @@ public class BlogDao {
         String sql = "select count(*) from post_like where m_idx = ? and l_type = 2";
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, m_idx);
             rs = pstmt.executeQuery();
@@ -1332,7 +1332,7 @@ public class BlogDao {
         String sql = "select count(*) from post_like where m_idx = ? and l_type = 2";
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, m_idx);
             rs = pstmt.executeQuery();
@@ -1365,7 +1365,7 @@ public class BlogDao {
         String sql = "insert into post values (seq_post_p_idx.nextval, ?, ?, ?, sysdate, sysdate, 2, 1, ?)";
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             
             // XSS 방어를 위해 이스케이프 처리
@@ -1403,7 +1403,7 @@ public class BlogDao {
         String sql = "update post set p_cate = ?, p_title = ?, p_content = ?, p_mdate = sysdate where p_idx = ? and p_type = 2";
 
         try {
-            conn = DBService.getinstance().getConnection();
+            conn = DBService.getInstance().getConnection();
             pstmt = conn.prepareStatement(sql);
             
             // XSS 방어를 위해 이스케이프 처리
@@ -1429,7 +1429,7 @@ public class BlogDao {
         }
         return res;
     }
-    
+ 
 	// 관리자 게시글 수정
 	public int adminPostUpdate(PostVo vo) {
 		
@@ -1442,7 +1442,7 @@ public class BlogDao {
 		try {
 			sql = "update post set p_cate = ?, p_title = ?, p_content = ?, p_type= ?, p_mdate = sysdate where p_idx = ?";
 			
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -1473,5 +1473,4 @@ public class BlogDao {
 		}
 		return res;
 	}
-	
 }

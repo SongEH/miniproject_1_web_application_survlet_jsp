@@ -20,7 +20,7 @@ public class memberDao {
 	
 	static memberDao single = null;
 
-	public static memberDao getinstance() {
+	public static memberDao getInstance() {
 
 		if (single == null)
 			single = new memberDao();
@@ -44,7 +44,7 @@ public class memberDao {
 		try {
 			String sql = "select * from member where m_id = ? and m_pw = ?";
 			
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, m_id);
@@ -107,7 +107,7 @@ public class memberDao {
 		String sql = "INSERT INTO member (m_idx, m_name, m_id, m_pw, m_email) VALUES (seq_member_m_idx.nextval, ?, ?, ?, ?)";
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			// XSS 방어를 위해 이스케이프 처리
@@ -154,7 +154,7 @@ public class memberDao {
 
 		try {
 
-			conn = DBService.getinstance().getConnection();
+			conn = DBService.getInstance().getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -202,7 +202,7 @@ public class memberDao {
 			String sql = "delete from member where m_id = ?";
 
 			try {
-				conn = DBService.getinstance().getConnection();
+				conn = DBService.getInstance().getConnection();
 				pstmt = conn.prepareStatement(sql);
 
 				pstmt.setString(1,m_id);

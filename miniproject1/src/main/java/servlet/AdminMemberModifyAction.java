@@ -32,7 +32,7 @@ public class AdminMemberModifyAction extends HttpServlet {
 		String m_intro = request.getParameter("m_intro");
 		
 		// DB 등록
-		BlogDao dao = BlogDao.getinstance();
+		BlogDao dao = BlogDao.getInstance();
         MemberVo mv = new MemberVo(m_idx, m_name, m_email, m_intro);
         dao.memberUpdate(mv);
 		

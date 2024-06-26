@@ -18,7 +18,7 @@ public class DBService {
 
 	static DBService single = null;
 
-	public static DBService getinstance() {
+	public static DBService getInstance() {
 
 		if (single == null)
 			single = new DBService();

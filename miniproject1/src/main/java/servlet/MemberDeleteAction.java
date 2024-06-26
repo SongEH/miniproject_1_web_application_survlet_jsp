@@ -30,7 +30,7 @@ public class MemberDeleteAction extends HttpServlet {
 		MemberVo mv = (MemberVo) session.getAttribute("member");
 		int m_idx = mv.getM_idx();
 		
-		BlogDao.getinstance().memberDelete(m_idx);
+		BlogDao.getInstance().memberDelete(m_idx);
 		
 		response.sendRedirect("../main/mainpage2(login_before).jsp");
 	}

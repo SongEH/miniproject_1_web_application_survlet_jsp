@@ -26,7 +26,7 @@ public class AdminMemberDeleteAction extends HttpServlet {
 		// 삭제할 idx 수신
 		int m_idx = Integer.parseInt(request.getParameter("m_idx"));
 		
-		int res = BlogDao.getinstance().memberDelete(m_idx);
+		int res = BlogDao.getInstance().memberDelete(m_idx);
 		
 		response.sendRedirect("memberlist.do");
 

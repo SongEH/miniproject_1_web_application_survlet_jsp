@@ -32,7 +32,7 @@ public class LoginAction extends HttpServlet {
         String remember = request.getParameter("remember");
 
         // DB에서 회원 정보를 확인
-        BlogDao dao = BlogDao.getinstance();
+        BlogDao dao = BlogDao.getInstance();
         // 확인한 정보를 반환
         MemberVo mv = dao.login(m_id, m_pw, remember, request, response);
 

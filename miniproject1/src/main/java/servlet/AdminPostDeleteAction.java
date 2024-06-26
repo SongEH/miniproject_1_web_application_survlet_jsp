@@ -26,7 +26,7 @@ public class AdminPostDeleteAction extends HttpServlet {
 		// 삭제할 idx 수신
 		int p_idx = Integer.parseInt(request.getParameter("p_idx"));
 		
-		int res = BlogDao.getinstance().postDelete(p_idx);
+		int res = BlogDao.getInstance().postDelete(p_idx);
 		
 		response.sendRedirect("postlist.do");
 

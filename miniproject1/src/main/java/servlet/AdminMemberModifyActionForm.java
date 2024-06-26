@@ -28,7 +28,7 @@ public class AdminMemberModifyActionForm extends HttpServlet {
 		int idx = Integer.parseInt(request.getParameter("m_idx"));
 		
 		// 회원 정보 얻어오기
-		MemberVo mv = BlogDao.getinstance().selectMemberByMidx(idx);
+		MemberVo mv = BlogDao.getInstance().selectMemberByMidx(idx);
 		
 		// request binding
 		request.setAttribute("mv", mv);

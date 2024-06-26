@@ -1,13 +1,13 @@
 package servlet;
 
+import java.io.IOException;
+
+import dao.PostDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import dao.PostDao;
 import vo.PostVo;
 
 /**
@@ -33,10 +33,12 @@ public class PostInsertAction extends HttpServlet {
 		String p_content = request.getParameter("p_content").replaceAll("\n", "<br>");
 		String p_cate = request.getParameter("p_cate");
 		int p_type  = Integer.parseInt(request.getParameter("p_type"));
+		int m_idx = Integer.parseInt(request.getParameter("m_idx"));
+		String m_name = request.getParameter("m_name");
 		
 		
 		// 3. VisitVo를 포장한다
-		PostVo vo = new PostVo(p_title,p_content,p_cate,p_type);
+		PostVo vo = new PostVo(p_title,p_content,p_cate,p_type, m_idx, m_name);
 		
 		// 4. DB insert
 		int res = PostDao.getInstance().insert(vo);

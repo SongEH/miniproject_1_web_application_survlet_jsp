@@ -30,7 +30,7 @@ public class AdminMemberList extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		// 데이터 가져오기
-		List<MemberVo> list = BlogDao.getinstance().selectMemberList();
+		List<MemberVo> list = BlogDao.getInstance().selectMemberList();
 		// request binding
 		request.setAttribute("list", list);
 		

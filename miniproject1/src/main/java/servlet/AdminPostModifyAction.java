@@ -34,7 +34,7 @@ public class AdminPostModifyAction extends HttpServlet {
 		int p_type = Integer.parseInt(request.getParameter("p_type"));
 		
 		// DB 등록
-		BlogDao dao = BlogDao.getinstance();
+		BlogDao dao = BlogDao.getInstance();
         PostVo pv = new PostVo(p_idx, p_cate, p_title, p_content, p_type);
         dao.adminPostUpdate(pv);
 		

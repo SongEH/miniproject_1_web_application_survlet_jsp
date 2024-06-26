@@ -10,7 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vo.MemberVo;
 import vo.PostVo;
 
 /**
@@ -31,7 +30,7 @@ public class AdminPostList extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		// 데이터 가져오기
-		List<PostVo> list = BlogDao.getinstance().selectPostList();
+		List<PostVo> list = BlogDao.getInstance().selectPostList();
 		// request binding
 		request.setAttribute("list", list);
 		
