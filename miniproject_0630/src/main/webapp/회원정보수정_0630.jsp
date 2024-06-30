@@ -20,6 +20,9 @@
 	padding: 20px;
 }
 
+
+
+
 .box1 textarea, .box1 input[type="text"], .box1 input[type="password"],
 	.box1 input[type="email"] {
 	width: 100%;
