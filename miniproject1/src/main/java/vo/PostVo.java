@@ -14,7 +14,9 @@ public class PostVo {
 		private int p_type;
 		private int p_hit;
 		private int m_idx;
+		private int m_type;
 		private String m_name;
+		String p_file_name;
 		
 		public int getLike() { // 게시글 별 좋아요 수
 			int res = PostDao.getInstance().getPostLikeCount(p_idx);
@@ -30,19 +32,27 @@ public class PostVo {
 		
 		
 		public PostVo() {
-			// TODO Auto-generated constructor stub
 		}
 		
-		public PostVo(String p_title, String p_content, String p_cate, int p_type, int m_idx, String m_name) {
+		public PostVo(String p_title, String p_content, String p_cate, int p_type, int m_idx, String m_name, String p_file_name) {
 			super();
 			this.p_title = p_title;
 			this.p_content = p_content;
 			this.p_cate = p_cate;
 			this.p_type = p_type;
 			this.m_idx = m_idx;
+			this.p_file_name = p_file_name;
 			this.setM_name(m_name);
 		}
 
+		public PostVo(int p_idx, String p_cate, String p_title, String p_content, int p_type) {
+			super();
+			this.p_idx = p_idx;
+			this.p_cate = p_cate;
+			this.p_title = p_title;
+			this.p_content = p_content;
+			this.p_type = p_type;
+		}
 		
 		public int getNo() {
 			return no;
@@ -131,6 +141,25 @@ public class PostVo {
 		public void setM_name(String m_name) {
 			this.m_name = m_name;
 		}
+
+		public int getM_type() {
+			return m_type;
+		}
+
+		public void setM_type(int m_type) {
+			this.m_type = m_type;
+		}
+
+		public String getP_file_name() {
+			return p_file_name;
+		}
+
+		public void setP_file_name(String p_file_name) {
+			this.p_file_name = p_file_name;
+		}
+
+		
+	
 		
 	}
 

@@ -8,6 +8,24 @@ public class CommentVo {
 	private String c_mdate;
 	private int p_idx;
 	private int m_idx;
+	private String m_name;
+	
+	
+	public CommentVo() {
+		super();
+	}
+
+	public CommentVo(int c_idx, String c_content) {
+		super();
+		this.c_idx = c_idx;
+		this.c_content = c_content;
+	}
+
+	public CommentVo(int p_idx, int m_idx, String c_content) {
+		this.p_idx = p_idx;
+		this.m_idx = m_idx;
+		this.c_content = c_content;
+	}
 	
 	public int getC_idx() {
 		return c_idx;
@@ -56,5 +74,13 @@ public class CommentVo {
 	public void setM_idx(int m_idx) {
 		this.m_idx = m_idx;
 	}
-	
+
+	public String getM_name() {
+		return m_name;
+	}
+
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
+	}
+
 }

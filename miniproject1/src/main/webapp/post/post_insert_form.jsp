@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +40,6 @@ th {
 		let p_title = f.p_title.value.trim();
 		let p_content = f.p_content.value.trim();
 		let p_cate = f.p_cate.value.trim();
-		let p_type = f.p_type.value;
 		
 		if (p_title == '') {
 			alert("제목을 입력하세요.");
@@ -71,7 +72,7 @@ th {
 </head>
 <body>
 
-	<form>
+	<form method="POST"  enctype="multipart/form-data">
 		<div id="box">
 			<!-- Bootstrap panel -->
 			<div class="panel panel-primary">
@@ -109,16 +110,25 @@ th {
 							
 							</td>
 						</tr>
+						
+						<tr>
+			               <th>사진</th>
+			               <td><input class="form-control"  type="file" name="photo"></td>
+			            </tr>
+			            
+						<c:if test="${ (sessionScope.member.m_type eq 2) }">
 						<tr>
 							<th>구분</th>
 							<td> 
+							
 							  <input type="radio" id="p_type_1" name="p_type" value="1" checked>
 						      <label for="normal">일반</label><br>
-						      <input type="radio" id="p_type_2" name="p_type" value="2">
-						      <label for="notice">공지</label><br><br>
+						      
+							      <input type="radio" id="p_type_2" name="p_type" value="2">
+							      <label for="notice">공지</label><br><br>						   
 							</td>
 						</tr>
-						
+						</c:if>
 						
 						<tr>
 							<td colspan="2" align="center">

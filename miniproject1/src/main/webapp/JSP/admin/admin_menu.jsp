@@ -54,7 +54,22 @@
 		</ul>
 		</div>
 	</div>
-
+	<div class="panel panel-success">
+		<div class="panel-heading">게시글관리</div>
+		<div class="panel-body">
+		<ul>
+			<li><a href="postlist.do">게시글 관리 페이지</a></li>
+		</ul>
+		</div>
+	</div>
+		<div class="panel panel-danger">
+		<div class="panel-heading">댓글관리</div>
+		<div class="panel-body">
+		<ul>
+			<li><a href="commentlist.do">댓글 관리 페이지</a></li>
+		</ul>
+		</div>
+	</div>
 </div>
 </body>
 </html>

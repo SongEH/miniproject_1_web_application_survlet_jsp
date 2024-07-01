@@ -2,19 +2,20 @@ package servlet;
 
 import java.io.IOException;
 
-import dao.BlogDao;
+import dao.CommentDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import vo.CommentVo;
 
 /**
- * Servlet implementation class DeptListAction
+ * Servlet implementation class PostInsertFormAction
  */
-@WebServlet("/JSP/admin/member_delete.do")
-public class AdminMemberDeleteAction extends HttpServlet {
+
+@WebServlet("/post/comments_insert.do")
+public class CommentInsertAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -23,12 +24,18 @@ public class AdminMemberDeleteAction extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// 삭제할 idx 수신
+		// parameter받기
+		String c_content = request.getParameter("c_content").replaceAll("\n", "<br>");
+		int p_idx = Integer.parseInt(request.getParameter("p_idx"));
 		int m_idx = Integer.parseInt(request.getParameter("m_idx"));
 		
-		int res = BlogDao.getinstance().memberDelete(m_idx);
+		//  VisitVo를 포장한다
+		CommentVo cv = new CommentVo(p_idx, m_idx, c_content);
 		
-		response.sendRedirect("memberlist.do");
+		//  DB insert
+		int res = CommentDao.getInstance().commentInsert(cv);
+		
+		response.sendRedirect("list.do");
 
 	}
 

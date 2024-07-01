@@ -21,6 +21,13 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+function modify_form(f){
+	location.href = "modify_form.do?p_idx=" + f.p_idx.value;
+	
+	
+}  
+
+
 function del(f){
 	if(confirm("정말 삭제하시겠습니까?")==false){
 		return;
@@ -55,13 +62,15 @@ function toggleScrap(f) {
 
 
 
+
+
 </script>
 
 
 </head>
 <body>
 	<div id="box">
-		<h1 id="title">♣게시글♣</h1>
+		<h1 id="title">♣게시글♣ - 여기는 카드 목록!</h1>
 
 		<div style="margin-bottom: 30px">
 			<input class="btn btn-primary" type="button" value="글쓰기"
@@ -94,17 +103,23 @@ function toggleScrap(f) {
 					<!-- 상세보기로 넘어가는 버튼 -->
 					<div>
 					<input class="btn btn-info" type="button" value="상세보기(임시버튼)"  
-	               onclick="location.href='../comments/c_list.do?p_idx=${vo.p_idx}'">
+	               onclick="location.href='post_one.do?p_idx=${vo.p_idx}'">
 	               </div>
 					<!-- 같은 속성을 주기 위해 class타입으로 정함 -->
 					<div class="panel-body">
-						<div class="mycommon p_cate">${vo.p_cate}</div>
-						
-						<div class="mycommon p_content">${vo.p_content}</div>
+						<div>카테고리 : ${vo.p_cate}</div>
+						<div>제목 : ${vo.p_title}</div>
+						<div>내용 : ${vo.p_content}</div>
+						<div>조회수 : ${vo.p_hit}</div>
+						<div>작성자 : ${vo.m_idx}</div>
 						
 						<!-- 일자에서 초까지 필요없으면 substring 사용 -->
 						<div class="mycommon p_rdate">작성일자:
 							${fn:substring(vo.p_rdate,0,16)}</div>
+
+						<!-- 일자에서 초까지 필요없으면 substring 사용 -->
+						<div class="mycommon p_rdate">수정일자:
+							${fn:substring(vo.p_mdate,0,16)}</div>
 						
 						<div class="mycommon p_type">
 							<%-- 일반/공지:${vo.p_type} --%>
@@ -126,11 +141,23 @@ function toggleScrap(f) {
 						<button id="like-btn-${vo.p_idx}" onclick="toggleLike(this.form)">좋아요 : ${vo.getLike()}</button>
             			<button id="scrap-btn-${vo.p_idx}" onclick="toggleScrap(this.form)">스크랩 : ${vo.getScrap()}</button>
 						
-						
+					 <!-- 게시글 수정은 관리자랑, 작성자만 경우 가능 -->
+	                  <c:if test="${ (sessionScope.member.m_type eq 2) or ( sessionScope.member.m_idx eq vo.m_idx ) }">
 						<input class="btn btn-success" type="button" value="수정"
 						onclick="modify_form(this.form);">
-						<input class="btn btn-danger" type="button" value="삭제"
+	                  </c:if>
+	                  
+	                  <!-- 게시글 삭제는 관리자만 가능 -->
+	                  <c:if test="${ (sessionScope.member.m_type eq 2) }">
+	                  	<input class="btn btn-danger" type="button" value="삭제"
 						onclick="del(this.form);"> 
+	                  </c:if>
+	                  
+						<img src="../uploads/${ vo.p_file_name }">
+						
+						
+  					 
+						
 						</div>
 					</div>
 			</form>

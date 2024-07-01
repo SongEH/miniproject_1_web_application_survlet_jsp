@@ -33,7 +33,7 @@ public class MemberJoinAction extends HttpServlet {
 		int m_type = 1;
 		
 		// DB에서 회원 정보를 등록
-        BlogDao dao = BlogDao.getinstance();
+        BlogDao dao = BlogDao.getInstance();
         MemberVo mv = new MemberVo(m_name, m_id, m_pw, m_email, m_intro, m_type);
         dao.memberInsert(mv);
 		

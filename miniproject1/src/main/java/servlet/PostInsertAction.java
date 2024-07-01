@@ -1,20 +1,27 @@
 package servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import dao.PostDao;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import vo.PostVo;
 
 /**
  * Servlet implementation class PostInsertAction
  */
 
+
 @WebServlet("/post/insert.do")
+@MultipartConfig
 public class PostInsertAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -27,18 +34,49 @@ public class PostInsertAction extends HttpServlet {
 		// 0. 수신인코딩 설정을 해야한다
 		request.setCharacterEncoding("utf-8");
 		
+		
+		//화일업로드 처리 ------------------------------------
+        Part filePart = request.getPart("photo"); // 파일 부분 가져오기
+        String fileName = getFileName(filePart); // 파일 이름 추출
+        String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+        
+        System.out.println(uploadPath);
+        
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) uploadDir.mkdir(); // 업로드 디렉토리 생성
+
+        // 파일 저장
+        File file = new File(uploadPath + File.separator + fileName);
+        try (FileOutputStream fos = new FileOutputStream(file);
+             InputStream is = filePart.getInputStream()) {
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+        }
+	    //화일업로드 처리 end ------------------------------------
+		
+        
 		// 1. parameter받기 <- 전달이 되는 인자를 parameter라고 부름
 		//query 방식이기에 &으로 구분한다
 		String p_title = request.getParameter("p_title");
 		String p_content = request.getParameter("p_content").replaceAll("\n", "<br>");
 		String p_cate = request.getParameter("p_cate");
-		int p_type  = Integer.parseInt(request.getParameter("p_type"));
+		
+		
+		
 		int m_idx = Integer.parseInt(request.getParameter("m_idx"));
 		String m_name = request.getParameter("m_name");
-		
+		String p_file_name = request.getParameter("p_file_name");
+		int p_type = 1;
+		if(request.getParameter("p_type") != null) {
+			p_type = Integer.parseInt(request.getParameter("p_type"));
+		} 
 		
 		// 3. VisitVo를 포장한다
-		PostVo vo = new PostVo(p_title,p_content,p_cate,p_type, m_idx, m_name);
+		PostVo vo = new PostVo(p_title,p_content,p_cate,p_type, m_idx, m_name, p_file_name);
 		
 		// 4. DB insert
 		int res = PostDao.getInstance().insert(vo);
@@ -48,5 +86,16 @@ public class PostInsertAction extends HttpServlet {
 
 	}
 
+	// 파일 이름 추출
+    private String getFileName(Part part) {
+        String contentDisposition = part.getHeader("content-disposition");
+        for (String cd : contentDisposition.split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return new File(fileName).getName();
+            }
+        }
+        return null;
+    }
 }
 

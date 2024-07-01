@@ -1,5 +1,8 @@
-
+select * from post where p_idx=21
 create user test1 identified by test1
+
+SELECT * FROM v$resource_limit where resource_name='processes'; 
+
 
 -- 회원 테이블
 create table member(
@@ -27,9 +30,10 @@ create sequence seq_member_m_idx;
 -- insert into member(m_name, m_id, m_pw, m_email, m_type) values ('테스트계정', 'test', 'test', 'test@test.com', 1);
 -- SELECT * FROM member WHERE m_id = 'admin' AND m_pw = 'admin';
 
--- 테스트
+-- 테스트 
 select * from member
--- delete * from member where m_id = 'admin'
+delete from member
+update member set m_type = 2 where m_id = 'bbb'
 
 
 -- 제약조건까지 삭제 (필요시)
@@ -50,7 +54,8 @@ create table post(
 	p_mdate 	date default sysdate,	-- 수정일자
 	p_type 		int default 1,			-- 구분(일반:1, 관리자:2)
 	p_hit 		int default 1,			-- 조회수
-	m_idx 		int not null			-- 회원번호
+	m_idx 		int not null,			-- 회원번호
+	p_file_name  varchar2(200)   -- 화일명
 );
 
 -- Primary Key
@@ -143,7 +148,7 @@ select * from comments
   
 create or replace view post_list_view
 as
-	SELECT  p.P_IDX, p.P_CATE, p.P_TITLE, p.P_CONTENT, p.P_RDATE, p.P_MDATE, p.P_TYPE, p.P_HIT, p.M_IDX, m.m_name
+	SELECT  p.P_IDX, p.P_CATE, p.P_TITLE, p.P_CONTENT, p.P_RDATE, p.P_MDATE, p.P_TYPE, p.P_HIT, p.M_IDX, m.m_name, m.m_type, p_file_name
 	from post p, member m
 	where p.m_idx = m.m_idx;
 
