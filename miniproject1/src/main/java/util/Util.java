@@ -2,6 +2,14 @@ package util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.util.Properties;
+import java.util.Random;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import vo.MemberVo;
 
 public class Util {
@@ -51,6 +59,50 @@ public class Util {
             return (mv != null && mv.getM_type() == 2);
         }
         return false;
+    }
+    
+    // 임시 비밀번호 생성 메서드
+    public static String generateTemporaryPassword() {
+        char[] charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        StringBuilder tempPassword = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 8; i++) { // 임시 비밀번호 길이는 8자로 설정
+            tempPassword.append(charSet[random.nextInt(charSet.length)]);
+        }
+        return tempPassword.toString();
+    }
+    
+    // 이메일 전송 메서드
+    public static void sendEmail(String to, String subject, String body) {
+        String from = "tomcat10@naver.com"; // 발신자 이메일 주소
+        String host = "smtp.naver.com"; // 네이버 SMTP 서버 주소
+        final String username = "tomcat10@naver.com"; // SMTP 인증 사용자 이메일
+        final String password = "123456789"; // SMTP 인증 비밀번호
+
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+        properties.setProperty("mail.smtp.port", "587"); // TLS 포트
+        properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getDefaultInstance(properties, new jakarta.mail.Authenticator() {
+            protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new jakarta.mail.PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject(subject);
+            message.setText(body);
+
+            Transport.send(message);
+            System.out.println("Sent message successfully....");
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
     }
     
 }

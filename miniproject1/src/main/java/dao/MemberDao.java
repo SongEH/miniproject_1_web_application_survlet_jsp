@@ -395,4 +395,33 @@ public class MemberDao {
         return res;
     }
 	
+    // 비밀번호 업데이트 메서드
+    public int updatePassword(String m_id, String newPassword) {
+        int res = 0;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        String sql = "update member set m_pw = ? where m_id = ?";
+
+        try {
+            conn = DBService.getInstance().getConnection();
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, m_id);
+
+            res = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+    
 }
