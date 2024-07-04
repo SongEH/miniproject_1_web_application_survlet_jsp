@@ -1,15 +1,18 @@
 package util;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import java.util.Properties;
 import java.util.Random;
-import jakarta.mail.Message;
+
+import jakarta.mail.Authenticator;
 import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
+import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
+import oracle.net.ns.Message;
 import vo.MemberVo;
 
 public class Util {
@@ -85,16 +88,16 @@ public class Util {
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.starttls.enable", "true");
 
-        Session session = Session.getDefaultInstance(properties, new jakarta.mail.Authenticator() {
-            protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new jakarta.mail.PasswordAuthentication(username, password);
+        jakarta.mail.Session mailSession = jakarta.mail.Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
             }
         });
 
         try {
-            MimeMessage message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(to));
             message.setSubject(subject);
             message.setText(body);
 

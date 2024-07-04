@@ -66,9 +66,9 @@ margin-left : auto;
 					<div class="collapse navbar-collapse" id="mynavbar">
 						<ul class="navbar-nav ms-auto">
 							<li><b>${ sessionScope.member.m_name }</b>님 환영합니다.</li>
-							<li class="nav-item"><a class="nav-link" id="logout" href="../../logout.do"><img src="$" alt="로그아웃"></a>
+							<li class="nav-item"><a class="nav-link" id="logout" href="../../logout.do"><img src="#" alt="로그아웃"></a>
 							</li>
-							<li class="nav-item"><a class="nav-link" id="admin_menu" href="../admin/admin_menu.jsp"><img src="$" alt="관리페이지"></a>
+							<li class="nav-item"><a class="nav-link" id="admin_menu" href="../admin/admin_menu.jsp"><img src="#" alt="관리페이지"></a>
 							</li>
 							<li class="nav-item">
 								<button type="button" class="btn btn-primary dropdown-toggle"
