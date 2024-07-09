@@ -1,2 +1,3 @@
-# test_link_eclipse
-eclipse, java
+# 2024.07.05 미니프로젝트 완료
+블로그형식의 웹 어플리케이션 미니 프로젝트
+servlet과 jsp를 이용한 개발단계
